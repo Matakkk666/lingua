@@ -116,15 +116,20 @@
     state.lastEmail = email;
     state.lastName = name;
 
-    // Реальная оплата через ЮMoney
+    var courseIds = state.items.map(function(i) { return i.id; });
+
     if (global.AESPayment && global.AESPayment.isConfigured) {
+      global.AESPayment.savePending(email, courseIds, orderId);
       global.AESPayment.redirectToPayment(amount, orderId, comment);
       state.view = 'processing';
       render();
       return;
     }
 
-    // Если оплата не настроена — показываем инструкцию
+    // Оплата не настроена — сохраняем покупку и показываем успех
+    if (global.AESPayment) {
+      global.AESPayment.addPurchase(email, courseIds, orderId);
+    }
     state.items = [];
     state.view = 'success';
     save();
@@ -394,6 +399,29 @@
     root.innerHTML = panelHTML();
     load();
     wire();
+
+    // Handle return from Robokassa
+    if (global.AESPayment && global.AESPayment.handlePaymentReturn) {
+      var status = global.AESPayment.handlePaymentReturn();
+      if (status === 'success') {
+        var pending = global.AESPayment.getPending();
+        if (pending && pending.email) {
+          state.lastEmail = pending.email;
+          state.lastOrderId = pending.orderId || '';
+        }
+        state.items = [];
+        state.view = 'success';
+        save();
+        global.AESPayment.clearPaymentUrl();
+        open();
+        render();
+        return;
+      }
+      if (status === 'fail') {
+        global.AESPayment.clearPaymentUrl();
+      }
+    }
+
     render();
   }
 

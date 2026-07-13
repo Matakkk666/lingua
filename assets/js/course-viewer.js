@@ -10,12 +10,24 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  const fc = ((global.AESData || {}).FREE_COURSE) || {};
+  const urlParams = new URLSearchParams(global.location.search);
+  const urlCourseId = urlParams.get('course');
+
+  const PAID_COURSES = ((global.AESData || {}).PAID_COURSES) || [];
+  const FREE_COURSE = ((global.AESData || {}).FREE_COURSE) || {};
+
+  let fc;
+  if (urlCourseId) {
+    fc = PAID_COURSES.find(function(c) { return c.id === urlCourseId; }) || {};
+  } else {
+    fc = FREE_COURSE;
+  }
   if (!fc.levels) return;
 
+  const COURSE_ID = fc.id || 'default';
   const COIN_KEY = 'aes_coins';
-  const PROGRESS_KEY = 'aes_course_progress_v2';
-  const ACTIVE_KEY = 'aes_course_active_v2';
+  const PROGRESS_KEY = 'aes_course_progress_' + COURSE_ID;
+  const ACTIVE_KEY = 'aes_course_active_' + COURSE_ID;
   const THEME_KEY = 'aes_theme';
   const COINS_PER_CORRECT = 10;
 

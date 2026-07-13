@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Курс — Lingua Learn</title>
+  <meta name="description" content="Платный курс английского языка с чтением, видеоуроками, тестами и AI-ассистентом.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { cream:'#FBF7F1', warmWhite:'#FFFCF6', lavender:'#E5DAF0', mint:'#D6EBDC', dustyPink:'#F2DCDC', ink:'#3A3550', accent:'#9D7BC4', emerald:'#7BB38E' },
+        fontFamily: { display:['Fraunces','Georgia','serif'], sans:['"Plus Jakarta Sans"','system-ui','sans-serif'] }
+      }}
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="paid-course" class="font-sans text-ink aes-app-body">
+
+  <!-- ============ STANDALONE APP TOP BAR ============ -->
+  <header class="aes-app-topbar">
+    <div class="aes-app-topbar-left">
+      <a href="courses.html" class="aes-app-back" title="Назад к курсам">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      </a>
+      <span class="aes-logo-mark">L</span>
+      <span class="font-display text-lg text-ink aes-app-title" id="course-page-title">Lingua Learn</span>
+    </div>
+    <div class="aes-app-topbar-right">
+      <div class="aes-app-coins">
+        <span class="aes-app-coin-icon">🪙</span>
+        <span class="aes-app-coin-balance aes-coin-balance">0</span>
+        <span class="aes-coin-pop"></span>
+      </div>
+      <div class="js-auth-slot aes-app-auth-slot"></div>
+      <button id="theme-toggle-app" class="aes-app-theme-btn" title="Сменить тему">🌙</button>
+    </div>
+  </header>
+
+  <!-- ============ ACCESS GATE (no access) ============ -->
+  <div id="access-gate" class="aes-app-gate" style="display:none">
+    <div class="aes-app-gate-content">
+      <div class="aes-auth-gate-icon">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 7.5l9 6 9-6"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <h1 class="font-display text-4xl text-ink mt-6" id="gate-title">Доступ к курсу</h1>
+      <p class="text-ink/60 mt-3 max-w-sm mx-auto" id="gate-message">Этот курс доступен после покупки. Войдите с email, указанным при оплате, чтобы получить доступ.</p>
+      <div class="flex flex-col items-center gap-3 mt-7">
+        <button class="aes-btn aes-btn-primary" data-auth-open>Войти</button>
+        <a href="courses.html" class="aes-app-back-link mt-2">← Купить курс</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ APP CONTENT ============ -->
+  <div id="course-content" style="display:none">
+    <!-- Progress bar -->
+    <div id="course-progress-wrap" class="aes-app-progress-wrap">
+      <div class="aes-cw-progress-wrap">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs font-semibold" style="color:var(--ink-soft)">Ваш прогресс</span>
+          <span class="text-xs" style="color:var(--ink-soft)" id="course-progress-text">0 / 0</span>
+        </div>
+        <div class="aes-cw-progress-track">
+          <div class="aes-cw-progress-fill" id="course-progress-bar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="aes-cw-layout aes-app-layout">
+      <aside class="aes-cw-sidebar" id="course-sidebar"></aside>
+      <div class="aes-cw-main" id="course-main"></div>
+    </div>
+  </div>
+
+  <!-- Cart + Auth modals -->
+  <div id="cart-root"></div>
+  <div id="auth-root"></div>
+
+  <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/paid-courses.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/payment.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/course-viewer.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    function getCourseId() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('course');
+    }
+
+    function getCourseTitle() {
+      var id = getCourseId();
+      var courses = (window.AESData && window.AESData.PAID_COURSES) || [];
+      var course = courses.find(function(c) { return c.id === id; });
+      return course ? course.title : 'Курс';
+    }
+
+    function hasAccess() {
+      var user = window.AESAuth && window.AESAuth.getUser();
+      if (!user || !user.email) return false;
+      var id = getCourseId();
+      if (!id) return false;
+      var purchases = window.AESPayment ? window.AESPayment.getPurchases() : [];
+      for (var i = 0; i < purchases.length; i++) {
+        if (purchases[i].email === user.email && purchases[i].courseIds.indexOf(id) >= 0) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function updateGate() {
+      var gate = document.getElementById('access-gate');
+      var content = document.getElementById('course-content');
+      var title = document.getElementById('course-page-title');
+      var gateTitle = document.getElementById('gate-title');
+
+      var courseTitle = getCourseTitle();
+      if (title) title.textContent = courseTitle;
+      if (gateTitle) gateTitle.textContent = courseTitle;
+
+      var user = window.AESAuth && window.AESAuth.getUser();
+
+      if (!user) {
+        if (gate) gate.style.display = 'flex';
+        if (content) content.style.display = 'none';
+        return;
+      }
+
+      if (hasAccess()) {
+        if (gate) gate.style.display = 'none';
+        if (content) content.style.display = 'block';
+        setTimeout(function() {
+          document.dispatchEvent(new Event('aes:course-show'));
+        }, 50);
+      } else {
+        if (gate) gate.style.display = 'flex';
+        if (content) content.style.display = 'none';
+        var msg = document.getElementById('gate-message');
+        if (msg) msg.textContent = 'У вас нет доступа к этому курсу. Купите его на странице курсов, или войдите с email, указанным при оплате.';
+      }
+    }
+
+    window.addEventListener('aes:auth-success', updateGate);
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(updateGate, 800);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('#theme-toggle-app')) {
+        e.preventDefault();
+        var isDark = document.body.classList.contains('aes-dark');
+        var next = isDark ? 'light' : 'dark';
+        document.body.classList.toggle('aes-dark', next === 'dark');
+        e.target.closest('#theme-toggle-app').textContent = next === 'dark' ? '☀️' : '🌙';
+        try { localStorage.setItem('aes_theme', next); } catch(e) {}
+      }
+    });
+  </script>
+</body>
+</html>

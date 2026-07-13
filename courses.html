@@ -179,7 +179,10 @@
         </div>
       </div>
       <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-ink/10">
-        <p class="text-ink/50 text-sm">© <span id="year"></span> Lingua Language School. Все права защищены.</p>
+        <div class="flex flex-wrap items-center gap-4">
+          <p class="text-ink/50 text-sm">© <span id="year"></span> Lingua Language School. Все права защищены.</p>
+          <a href="offer.html" class="text-ink/50 text-sm hover:text-accent transition">Публичная оферта</a>
+        </div>
         <p class="aes-footer-credit text-ink/70 text-sm">Website designed and developed by Matthew Kokorev</p>
       </div>
     </div>
@@ -191,6 +194,7 @@
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="assets/js/data.js"></script>
+  <script src="assets/js/paid-courses.js"></script>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/payment.js"></script>
   <script src="assets/js/cart.js"></script>

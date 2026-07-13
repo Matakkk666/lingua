@@ -226,6 +226,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         const name = (state.user.user_metadata && state.user.user_metadata.full_name) || email.split('@')[0];
         const initials = name.split(/[ .@]/).filter(Boolean).slice(0, 2).map((w) => (w[0] || '').toUpperCase()).join('') || 'U';
         slot.innerHTML = `
+          <a href="my-courses.html" class="aes-btn aes-btn-ghost aes-btn-sm">Мои курсы</a>
           <div class="aes-user-chip">
             <span class="aes-user-avatar">${escapeHTML(initials)}</span>
             <span class="aes-user-email">${escapeHTML(email)}</span>
@@ -288,8 +289,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
           state.user = null;
         }
         renderHeader();
-        if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
-          global.dispatchEvent(new CustomEvent('aes:auth-success'));
+        if (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'INITIAL_SESSION') {
+          if (session && session.user) {
+            global.dispatchEvent(new CustomEvent('aes:auth-success'));
+          }
         }
       });
 
@@ -297,6 +300,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         if (session && session.user) {
           state.user = session.user;
           renderHeader();
+          global.dispatchEvent(new CustomEvent('aes:auth-success'));
         }
       }).catch(() => {});
     } else {

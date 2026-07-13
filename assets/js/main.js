@@ -90,6 +90,22 @@
   function courseCard(c) {
     const a = acc(c.accent);
     const [g1, g2] = c.art;
+
+    var user = window.AESAuth && window.AESAuth.getUser();
+    var userEmail = user ? user.email : '';
+    var isPaidCourse = (window.AESData && window.AESData.PAID_COURSES || []).some(function(pc) { return pc.id === c.id; });
+    var hasAccess = userEmail && window.AESPayment && window.AESPayment.hasAccess(userEmail, c.id);
+    var canOpen = hasAccess && isPaidCourse;
+
+    var buttonHTML;
+    if (canOpen) {
+      buttonHTML = '<a class="aes-buy aes-buy-open" href="paid-course.html?course=' + c.id + '">Открыть курс →</a>';
+    } else if (c.price === 0) {
+      buttonHTML = '<a class="aes-buy" href="free-course.html" target="_blank">Начать бесплатно</a>';
+    } else {
+      buttonHTML = '<button class="aes-buy" data-buy="' + c.id + '">Купить курс</button>';
+    }
+
     return `
     <article class="aes-course reveal" style="--d:0.05s">
       <div class="aes-course-art" style="background:linear-gradient(135deg, ${g1}, ${g2});">
@@ -113,7 +129,7 @@
             ${c.oldPrice ? '<span class="aes-old-price">' + c.oldPrice.toLocaleString('ru-RU') + ' ₽</span>' : ''}
             <span class="aes-course-total">${c.price === 0 ? 'Бесплатно' : c.price.toLocaleString('ru-RU') + ' ₽'}</span>
           </div>
-          <button class="aes-buy" data-buy="${c.id}">Купить курс</button>
+          ${buttonHTML}
         </div>
       </div>
     </article>`;
@@ -216,6 +232,11 @@
     wireSmoothScroll();
     wireHeader();
     observeReveals();
+
+    // Re-render courses after auth changes (to show "Open course" buttons)
+    window.addEventListener('aes:auth-success', function() {
+      renderCourses();
+    });
   }
 
   if (document.readyState === 'loading') {

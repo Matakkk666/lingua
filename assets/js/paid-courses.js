@@ -13,7 +13,7 @@
     {
       id: 'c-start',
       title: 'AI-разговор с нуля',
-      price: 995,
+      price: 1000,
       oldPrice: 1990,
       level: 'A1–A2',
       duration: '8 недель',
@@ -188,7 +188,7 @@
     {
       id: 'c-business',
       title: 'Бизнес-английский Pro',
-      price: 2995,
+      price: 3000,
       oldPrice: 5990,
       level: 'B1–C1',
       duration: '10 недель',
@@ -281,7 +281,7 @@
     {
       id: 'c-exam',
       title: 'Мастерство IELTS',
-      price: 3995,
+      price: 4000,
       oldPrice: 7990,
       level: 'B2–C2',
       duration: '14 недель',
