@@ -256,49 +256,15 @@
   (function () {
     'use strict';
 
-    /* Emoji constants — using \u{} escapes to avoid encoding issues */
-    var COIN = '\u{1FA99}';
-    var CHECK = '\u{2713}';
-
-    /* Category configuration with inline SVG icons */
     var CATEGORIES = [
-      {
-        id: 'base', label: 'Аватары',
-        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>'
-      },
-      {
-        id: 'hat', label: 'Шляпы',
-        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"/><path d="M6 17l2-9a4 4 0 018 0l2 9"/></svg>'
-      },
-      {
-        id: 'glasses', label: 'Очки',
-        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14h4M3 11l2-2M21 11l-2-2"/></svg>'
-      },
-      {
-        id: 'accessory', label: 'Аксессуары',
-        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg>'
-      },
-      {
-        id: 'background', label: 'Фоны',
-        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 17l-5-5-8 8"/></svg>'
-      }
+      { id: 'base', label: 'Аватары' },
+      { id: 'hat', label: 'Шляпы' },
+      { id: 'glasses', label: 'Очки' },
+      { id: 'accessory', label: 'Аксессуары' },
+      { id: 'background', label: 'Фоны' }
     ];
 
-    /* ---------- State ---------- */
-    var state = {
-      coins: 0,
-      avatar: null,
-      items: [],
-      ready: false
-    };
-
-    /* ---------- Helpers ---------- */
     function $(id) { return document.getElementById(id); }
-
-    function resolveVal(v) {
-      if (v && typeof v.then === 'function') return v;
-      return Promise.resolve(v);
-    }
 
     function esc(s) {
       return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -306,249 +272,142 @@
       });
     }
 
-    function getItemPreview(item) {
-      return item.emoji || item.preview || item.icon || '';
-    }
-
-    function isOwned(item) {
-      if (!state.avatar || !state.avatar.owned) return false;
-      return state.avatar.owned.indexOf(item.id) >= 0;
-    }
-
-    function isEquipped(item) {
-      if (!state.avatar || !state.avatar.equipped) return false;
-      var eq = state.avatar.equipped;
-      /* support object map { category: itemId } or array of item ids */
-      if (Array.isArray(eq)) return eq.indexOf(item.id) >= 0;
-      return eq[item.category] === item.id;
-    }
-
-    function canAfford(item) {
-      return state.coins >= (item.price || 0);
-    }
-
-    function showToast(message, type) {
-      var toast = $('aes-toast');
-      if (!toast) return;
-      toast.textContent = message;
-      toast.className = 'aes-toast' + (type ? ' is-' + type : '');
-      /* force reflow then show */
-      void toast.offsetWidth;
-      toast.className = 'aes-toast is-show' + (type ? ' is-' + type : '');
-      clearTimeout(toast._aesTimer);
-      toast._aesTimer = setTimeout(function () {
-        toast.className = 'aes-toast' + (type ? ' is-' + type : '');
-      }, 3200);
-    }
-
-    /* ---------- Data loading ---------- */
-    function loadShopData() {
-      if (!window.AESAvatar) return Promise.resolve(false);
-
-      state.items = (window.AESAvatar.SHOP_ITEMS || []).slice();
-
-      return Promise.all([
-        resolveVal(window.AESAvatar.loadCoins()),
-        resolveVal(window.AESAvatar.loadAvatar())
-      ]).then(function (results) {
-        var coinsVal = results[0];
-        state.coins = (typeof coinsVal === 'number') ? coinsVal : (parseInt(coinsVal, 10) || 0);
-        var av = results[1];
-        if (av && typeof av === 'object') {
-          state.avatar = av;
-        } else {
-          state.avatar = { owned: [], equipped: {} };
+    function getCatForItem(itemId) {
+      var SI = window.AESAvatar.SHOP_ITEMS;
+      var cats = Object.keys(SI);
+      for (var i = 0; i < cats.length; i++) {
+        var items = SI[cats[i]];
+        for (var j = 0; j < items.length; j++) {
+          if (items[j].id === itemId) return cats[i];
         }
-        state.ready = true;
-        return true;
-      });
+      }
+      return null;
     }
 
-    function refreshShop() {
-      return loadShopData().then(function () {
-        renderShop();
-      });
+    function getItem(itemId) {
+      var SI = window.AESAvatar.SHOP_ITEMS;
+      var cats = Object.keys(SI);
+      for (var i = 0; i < cats.length; i++) {
+        var items = SI[cats[i]];
+        for (var j = 0; j < items.length; j++) {
+          if (items[j].id === itemId) return items[j];
+        }
+      }
+      return null;
     }
 
-    /* ---------- Rendering ---------- */
-    function renderBalance() {
-      var el = $('shop-coin-balance');
-      if (el) el.textContent = state.coins;
+    function isOwned(itemId) {
+      var av = window.AESAvatar.loadAvatar();
+      return av && av.owned && av.owned.indexOf(itemId) >= 0;
     }
 
-    function renderItemCard(item) {
-      var owned = isOwned(item);
-      var equipped = isEquipped(item);
-      var afford = canAfford(item);
+    function isEquipped(cat, itemId) {
+      var av = window.AESAvatar.loadAvatar();
+      return av && av[cat] === itemId;
+    }
 
-      var btnHtml;
+    function showToast(msg) {
+      var t = $('aes-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.className = 'aes-toast is-show';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function() { t.className = 'aes-toast'; }, 3000);
+    }
+
+    function renderItemCard(cat, item) {
+      var owned = isOwned(item.id);
+      var equipped = isEquipped(cat, item.id);
+      var coins = window.AESAvatar.loadCoins();
+      var afford = coins >= (item.price || 0);
+
+      var preview = item.emoji || '';
+      if (cat === 'background' && item.css) preview = '';
+
+      var btn;
       if (equipped) {
-        btnHtml = '<button class="aes-btn aes-btn-sm aes-shop-btn is-equipped-btn" disabled>' + CHECK + ' Надето</button>';
+        btn = '<button class="aes-btn aes-btn-sm aes-shop-btn" disabled>Надето</button>';
       } else if (owned) {
-        btnHtml = '<button class="aes-btn aes-btn-sm aes-btn-accent aes-shop-btn" data-equip="' + esc(item.id) + '">Надеть</button>';
+        btn = '<button class="aes-btn aes-btn-sm aes-btn-accent aes-shop-btn" data-equip="' + esc(item.id) + '" data-cat="' + esc(cat) + '">Надеть</button>';
       } else if (afford) {
-        btnHtml = '<button class="aes-btn aes-btn-sm aes-btn-primary aes-shop-btn" data-buy="' + esc(item.id) + '">Купить</button>';
+        btn = '<button class="aes-btn aes-btn-sm aes-btn-primary aes-shop-btn" data-buy="' + esc(item.id) + '" data-cat="' + esc(cat) + '">Купить</button>';
       } else {
-        btnHtml = '<button class="aes-btn aes-btn-sm aes-btn-ghost aes-shop-btn" disabled>Купить</button>';
+        btn = '<button class="aes-btn aes-btn-sm aes-btn-ghost aes-shop-btn" disabled>Купить</button>';
       }
 
-      var equippedTag = equipped
-        ? '<span class="aes-shop-equipped-tag">' + CHECK + ' Надето</span>'
-        : '';
+      var bgStyle = (cat === 'background' && item.css) ? item.css : '';
+      var previewClass = 'aes-shop-preview' + (bgStyle ? '' : '');
 
-      var cardClass = 'aes-shop-card' + (equipped ? ' is-equipped' : '');
-
-      return '<article class="' + cardClass + '">' +
-        '<div class="aes-shop-preview">' + equippedTag +
-          '<span class="aes-shop-emoji">' + esc(getItemPreview(item)) + '</span>' +
+      return '<article class="aes-shop-card' + (equipped ? ' is-equipped' : '') + '">' +
+        '<div class="' + previewClass + '" style="' + bgStyle + '">' +
+          '<span class="aes-shop-emoji">' + esc(preview) + '</span>' +
         '</div>' +
         '<div class="aes-shop-body">' +
           '<h3 class="aes-shop-name">' + esc(item.name) + '</h3>' +
           '<div class="aes-shop-foot">' +
-            '<span class="aes-shop-price"><span class="aes-shop-price-icon">' + COIN + '</span> ' + (item.price || 0) + '</span>' +
-            btnHtml +
+            '<span class="aes-shop-price">' + (item.price || 0) + ' монет</span>' +
+            btn +
           '</div>' +
         '</div>' +
       '</article>';
     }
 
-    function renderCategory(cat) {
-      var items = state.items.filter(function (item) {
-        return item.category === cat.id;
-      });
-      if (items.length === 0) return '';
-
-      var cards = items.map(renderItemCard).join('');
-
-      return '<div class="aes-shop-section">' +
-        '<div class="aes-shop-cat-head">' +
-          '<span class="aes-shop-cat-icon">' + cat.icon + '</span>' +
-          '<h2>' + esc(cat.label) + '</h2>' +
-          '<span class="text-sm text-ink/40 ml-1">' + items.length + '</span>' +
-        '</div>' +
-        '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">' + cards + '</div>' +
-      '</div>';
-    }
-
     function renderShop() {
-      renderBalance();
+      var bal = $('shop-coin-balance');
+      if (bal) bal.textContent = window.AESAvatar.loadCoins();
 
       var loading = $('shop-loading');
       var root = $('shop-root');
-
       if (loading) loading.style.display = 'none';
 
-      if (!window.AESAvatar || !state.ready) {
-        if (loading) {
-          loading.style.display = 'block';
-          loading.querySelector('p').textContent = 'Загрузка магазина\u2026';
-        }
-        if (root) root.style.display = 'none';
+      if (!window.AESAvatar) {
+        if (loading) { loading.style.display = 'block'; loading.querySelector('p').textContent = 'Загрузка...'; }
         return;
       }
 
-      var html = CATEGORIES.map(renderCategory).join('');
-      if (!html) {
-        html = '<div class="text-center py-20">' +
-          '<div class="aes-empty-blob mx-auto"></div>' +
-          '<p class="font-display text-2xl text-ink mt-6">В магазине пока нет товаров</p>' +
-          '<p class="text-sm text-ink/55 mt-1">Зайдите позже — мы добавим новые аксессуары.</p>' +
+      var SI = window.AESAvatar.SHOP_ITEMS;
+      var html = CATEGORIES.map(function(cat) {
+        var items = SI[cat.id] || [];
+        if (!items.length) return '';
+        var cards = items.map(function(item) { return renderItemCard(cat.id, item); }).join('');
+        return '<div class="aes-shop-section">' +
+          '<h2>' + esc(cat.label) + '</h2>' +
+          '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">' + cards + '</div>' +
         '</div>';
-      }
+      }).join('');
 
-      if (root) {
-        root.innerHTML = html;
-        root.style.display = 'block';
-      }
+      if (root) { root.innerHTML = html; root.style.display = 'block'; }
     }
 
-    /* ---------- Actions ---------- */
-    function handleBuy(itemId) {
-      if (!window.AESAvatar) return;
-
-      var item = state.items.find(function (i) { return i.id === itemId; });
-      if (!item) return;
-
-      if (!canAfford(item)) {
-        showToast('Недостаточно монет', 'error');
-        return;
-      }
-
-      /* disable button + show spinner state */
-      var btn = document.querySelector('[data-buy="' + CSS.escape(itemId) + '"]');
-      if (btn) { btn.disabled = true; btn.textContent = '\u2026'; }
-
-      resolveVal(window.AESAvatar.buyItem(itemId))
-        .then(function (result) {
-          var ok = true;
-          var errMsg = '';
-          if (result && result.success === false) {
-            ok = false;
-            errMsg = result.error || result.message || '';
-          }
-          if (ok) {
-            showToast(COIN + ' Куплено: ' + item.name, 'success');
-            refreshShop();
-          } else {
-            showToast(errMsg || 'Не удалось купить', 'error');
-            renderShop();
-          }
-        })
-        .catch(function (err) {
-          var msg = (err && err.message) ? err.message : 'Ошибка при покупке';
-          showToast(msg, 'error');
-          renderShop();
-        });
-    }
-
-    function handleEquip(itemId) {
-      if (!window.AESAvatar) return;
-
-      var item = state.items.find(function (i) { return i.id === itemId; });
-      if (!item) return;
-
-      var btn = document.querySelector('[data-equip="' + CSS.escape(itemId) + '"]');
-      if (btn) { btn.disabled = true; btn.textContent = '\u2026'; }
-
-      resolveVal(window.AESAvatar.equipItem(itemId))
-        .then(function (result) {
-          var ok = true;
-          var errMsg = '';
-          if (result && result.success === false) {
-            ok = false;
-            errMsg = result.error || result.message || '';
-          }
-          if (ok) {
-            showToast(CHECK + ' Надето: ' + item.name, 'success');
-            refreshShop();
-          } else {
-            showToast(errMsg || 'Не удалось надеть', 'error');
-            renderShop();
-          }
-        })
-        .catch(function (err) {
-          var msg = (err && err.message) ? err.message : 'Ошибка';
-          showToast(msg, 'error');
-          renderShop();
-        });
-    }
-
-    /* ---------- Event delegation ---------- */
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
       var buyBtn = e.target.closest('[data-buy]');
       var equipBtn = e.target.closest('[data-equip]');
       if (buyBtn) {
         e.preventDefault();
-        handleBuy(buyBtn.getAttribute('data-buy'));
-        return;
+        var itemId = buyBtn.getAttribute('data-buy');
+        var cat = buyBtn.getAttribute('data-cat');
+        var result = window.AESAvatar.buyItem(cat, itemId);
+        if (result.success) {
+          showToast('Куплено: ' + (getItem(itemId) || {}).name);
+          renderShop();
+        } else {
+          showToast(result.error || 'Ошибка');
+        }
       }
       if (equipBtn) {
         e.preventDefault();
-        handleEquip(equipBtn.getAttribute('data-equip'));
+        var itemId2 = equipBtn.getAttribute('data-equip');
+        var cat2 = equipBtn.getAttribute('data-cat');
+        var result2 = window.AESAvatar.equipItem(cat2, itemId2);
+        if (result2.success) {
+          showToast('Надето: ' + (getItem(itemId2) || {}).name);
+          renderShop();
+        } else {
+          showToast(result2.error || 'Ошибка');
+        }
       }
     });
 
-    /* ---------- Init ---------- */
     function showAuthGate(show) {
       var prompt = $('login-prompt');
       var loading = $('shop-loading');
@@ -560,43 +419,23 @@
       } else {
         if (prompt) prompt.style.display = 'none';
         if (loading) loading.style.display = 'block';
+        if (root) root.style.display = 'none';
       }
     }
 
     function init() {
       var user = window.AESAuth && window.AESAuth.getUser();
-      if (!user) {
-        showAuthGate(true);
-        return;
-      }
-
+      if (!user) { showAuthGate(true); return; }
       showAuthGate(false);
-
-      if (!window.AESAvatar) {
-        /* avatar.js may still be loading or not yet created */
-        renderShop();
-        return;
-      }
-
-      loadShopData().then(function () {
-        renderShop();
-      }).catch(function () {
-        renderShop();
-      });
+      if (!window.AESAvatar) { setTimeout(init, 500); return; }
+      window.AESAvatar.ensureAvatar();
+      renderShop();
     }
 
     window.addEventListener('aes:auth-success', init);
-    window.addEventListener('aes:auth-logout', function () {
-      state.ready = false;
-      state.avatar = null;
-      state.coins = 0;
-      init();
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-      setTimeout(init, 600);
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(init, 500);
       setTimeout(init, 1500);
-      setTimeout(init, 3000);
     });
   })();
   </script>

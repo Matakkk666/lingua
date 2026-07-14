@@ -41,6 +41,7 @@
         <a href="courses.html" class="nav-link text-sm font-medium" data-nav="courses">Курсы</a>
         <a href="test.html" class="nav-link text-sm font-medium" data-nav="test">Тест на уровень</a>
         <a href="about.html" class="nav-link text-sm font-medium" data-nav="about">Наш метод</a>
+        <a href="shop.html" class="nav-link text-sm font-medium" data-nav="shop">Магазин</a>
       </div>
       <div class="flex items-center gap-3">
         <div class="aes-avatar-slot"></div>
@@ -63,6 +64,7 @@
     <a href="courses.html">Курсы</a>
     <a href="test.html">Тест на уровень</a>
     <a href="about.html">Наш метод</a>
+    <a href="shop.html">Магазин</a>
     <div class="js-auth-slot mt-4"></div>
     <a href="courses.html" class="aes-btn aes-btn-primary mt-6 !text-base">Начать обучение</a>
   </div>
@@ -88,17 +90,17 @@
     <!-- ---------- COURSE OVERVIEW ---------- -->
     <section id="pcv-overview">
       <div class="max-w-5xl mx-auto">
-        <span class="aes-eyebrow reveal">Платный курс</span>
-        <h1 class="font-display text-ink mt-4 text-5xl md:text-6xl reveal" style="--d:.05s" id="pcv-course-title">Курс</h1>
+        <span class="aes-eyebrow">Платный курс</span>
+        <h1 class="font-display text-ink mt-4 text-5xl md:text-6xl" id="pcv-course-title">Курс</h1>
 
-        <div class="flex flex-wrap gap-6 mt-6 text-sm text-ink/60 reveal" style="--d:.1s">
+        <div class="flex flex-wrap gap-6 mt-6 text-sm text-ink/60">
           <span>Уровень: <strong class="text-ink" id="pcv-course-level">—</strong></span>
           <span>Длительность: <strong class="text-ink" id="pcv-course-duration">—</strong></span>
           <span>Уроков: <strong class="text-ink" id="pcv-course-lessons-count">—</strong></span>
         </div>
 
         <!-- Progress bar -->
-        <div class="mt-8 aes-cw-progress-wrap reveal" style="--d:.15s">
+        <div class="mt-8 aes-cw-progress-wrap">
           <div class="flex items-center justify-between mb-1">
             <span class="text-xs font-semibold" style="color:var(--ink-soft)">Ваш прогресс</span>
             <span class="text-xs" style="color:var(--ink-soft)" id="pcv-progress-text">0 / 0</span>
@@ -109,7 +111,7 @@
         </div>
 
         <!-- Lessons grid (populated by paid-course-viewer.js) -->
-        <div id="pcv-lessons" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 reveal" style="--d:.2s"></div>
+        <div id="pcv-lessons" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8"></div>
       </div>
     </section>
 
@@ -218,6 +220,9 @@
       if (hasAccess()) {
         if (gate) gate.style.display = 'none';
         if (content) content.style.display = 'block';
+        if (window.AESPaidViewer && window.AESPaidViewer.init) {
+          setTimeout(function() { window.AESPaidViewer.init(); }, 100);
+        }
       } else {
         if (gate) gate.style.display = 'flex';
         if (content) content.style.display = 'none';

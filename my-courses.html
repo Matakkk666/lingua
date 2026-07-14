@@ -164,14 +164,7 @@
         if (empty) empty.style.display = 'none';
 
         grid.innerHTML = myCourses.map(function(c) {
-          var totalLessons = 0;
-          if (c.levels) {
-            c.levels.forEach(function(lvl) {
-              lvl.units.forEach(function(u) {
-                totalLessons += u.lessons.length;
-              });
-            });
-          }
+          var totalLessons = c.totalLessons || (c.lessons ? c.lessons.length : 0);
 
           return '<article class="aes-course reveal is-visible">' +
             '<div class="aes-course-art" style="background:linear-gradient(135deg, #D6EBDC, #BFE3CE);">' +

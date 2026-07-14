@@ -57,9 +57,12 @@
     saveCoins(cur + n);
     renderCoins();
     animateCoins(n);
+    if (global.AESAvatar && global.AESAvatar.renderCoins) global.AESAvatar.renderCoins();
+    if (global.AESAvatar && global.AESAvatar.renderHeader) global.AESAvatar.renderHeader();
   }
   function renderCoins() {
     $$('.aes-coin-balance').forEach((el) => { el.textContent = loadCoins(); });
+    if (global.AESAvatar && global.AESAvatar.renderCoins) global.AESAvatar.renderCoins();
   }
   function animateCoins(amount) {
     $$('.aes-coin-pop').forEach((el) => {
