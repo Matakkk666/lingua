@@ -213,12 +213,16 @@
     const lang = state.theoryLang || 'orig';
 
     const showText = (hasRu && lang === 'ru') ? r.textRu : r.text;
-    const origLabel = course.level && course.level.indexOf('A1') >= 0 ? 'Оригинал' : 'Оригинал';
-    const toggleHTML = hasRu ? `
-      <div class="aes-pcv-lang-toggle">
-        <button class="aes-pcv-lang-btn ${lang === 'orig' ? 'is-active' : ''}" data-lang-toggle="orig">${origLabel}</button>
-        <button class="aes-pcv-lang-btn ${lang === 'ru' ? 'is-active' : ''}" data-lang-toggle="ru">Русский</button>
-      </div>` : '';
+
+    var toggleHTML;
+    if (hasRu) {
+      toggleHTML = '<div style="display:flex;gap:0;border-radius:999px;overflow:hidden;border:1px solid rgba(58,53,80,.2);margin-bottom:1.5rem;width:fit-content;">' +
+        '<button class="aes-pcv-lang-btn ' + (lang === 'orig' ? 'is-active' : '') + '" data-lang-toggle="orig" style="padding:.5rem 1.4rem;font-size:.85rem;font-weight:700;background:' + (lang === 'orig' ? '#3A3550' : 'transparent') + ';color:' + (lang === 'orig' ? '#FFFCF6' : '#3A3550') + ';border:none;cursor:pointer;transition:all .2s;">Оригинал</button>' +
+        '<button class="aes-pcv-lang-btn ' + (lang === 'ru' ? 'is-active' : '') + '" data-lang-toggle="ru" style="padding:.5rem 1.4rem;font-size:.85rem;font-weight:700;background:' + (lang === 'ru' ? '#3A3550' : 'transparent') + ';color:' + (lang === 'ru' ? '#FFFCF6' : '#3A3550') + ';border:none;cursor:pointer;transition:all .2s;">По-русски</button>' +
+      '</div>';
+    } else {
+      toggleHTML = '';
+    }
 
     root.innerHTML = `
       <div class="aes-pcv-theory">
