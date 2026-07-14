@@ -12,9 +12,9 @@
 
   var SHOP_ITEMS = {
     skin: [
-      { id: 'skin-1', name: 'Light', price: 0 },
-      { id: 'skin-2', name: 'Medium', price: 0 },
-      { id: 'skin-3', name: 'Dark', price: 0 }
+      { id: 'skin-1', name: 'Light', price: 0, color: '#F4C9A0' },
+      { id: 'skin-2', name: 'Medium', price: 0, color: '#C8956A' },
+      { id: 'skin-3', name: 'Dark', price: 0, color: '#7A4A2B' }
     ],
     shirt: [
       { id: 'shirt-basic', name: 'Basic White', price: 0, color: '#FFFFFF' },
@@ -24,14 +24,22 @@
       { id: 'shirt-purple', name: 'Purple Shirt', price: 200, color: '#9D7BC4' },
       { id: 'shirt-black', name: 'Black Shirt', price: 200, color: '#2C3E50' },
       { id: 'shirt-hoodie', name: 'Hoodie', price: 500, color: '#34495E' },
-      { id: 'shirt-suit', name: 'Business Suit', price: 1000, color: '#1a1a2e' }
+      { id: 'shirt-suit', name: 'Business Suit', price: 1000, color: '#1a1a2e' },
+      { id: 'shirt-orange', name: 'Orange Shirt', price: 250, color: '#E67E22' },
+      { id: 'shirt-pink', name: 'Pink Shirt', price: 250, color: '#ECB4D6' },
+      { id: 'shirt-yellow', name: 'Yellow Shirt', price: 200, color: '#F4D03F' },
+      { id: 'shirt-navy', name: 'Navy Shirt', price: 200, color: '#1B4F72' },
+      { id: 'shirt-tuxedo', name: 'Tuxedo', price: 1500, color: '#0D0D0D' }
     ],
     pants: [
       { id: 'pants-basic', name: 'Basic Jeans', price: 0, color: '#5D6D7E' },
       { id: 'pants-black', name: 'Black Pants', price: 100, color: '#2C3E50' },
       { id: 'pants-blue', name: 'Blue Jeans', price: 100, color: '#2980B9' },
       { id: 'pants-khaki', name: 'Khaki Pants', price: 150, color: '#B7950B' },
-      { id: 'pants-short', name: 'Shorts', price: 200, color: '#85929E' }
+      { id: 'pants-short', name: 'Shorts', price: 200, color: '#85929E' },
+      { id: 'pants-white', name: 'White Pants', price: 200, color: '#FDFEFE' },
+      { id: 'pants-red', name: 'Red Pants', price: 250, color: '#922B21' },
+      { id: 'pants-green', name: 'Green Pants', price: 250, color: '#1E8449' }
     ],
     hair: [
       { id: 'hair-short', name: 'Short Hair', price: 0, color: '#3E2723' },
@@ -39,7 +47,10 @@
       { id: 'hair-blonde', name: 'Blonde', price: 200, color: '#F1C40F' },
       { id: 'hair-red', name: 'Red Hair', price: 250, color: '#C0392B' },
       { id: 'hair-white', name: 'White Hair', price: 400, color: '#ECF0F1' },
-      { id: 'hair-blue', name: 'Blue Hair', price: 500, color: '#2980B9' }
+      { id: 'hair-blue', name: 'Blue Hair', price: 500, color: '#2980B9' },
+      { id: 'hair-pink', name: 'Pink Hair', price: 500, color: '#E91E63' },
+      { id: 'hair-purple', name: 'Purple Hair', price: 500, color: '#7B2CBF' },
+      { id: 'hair-gray', name: 'Gray Hair', price: 300, color: '#95A5A6' }
     ],
     accessory: [
       { id: 'acc-none', name: 'None', price: 0 },
@@ -47,7 +58,11 @@
       { id: 'acc-sunglasses', name: 'Sunglasses', price: 300 },
       { id: 'acc-cap', name: 'Cap', price: 200 },
       { id: 'acc-crown', name: 'Crown', price: 1000 },
-      { id: 'acc-headphones', name: 'Headphones', price: 250 }
+      { id: 'acc-headphones', name: 'Headphones', price: 250 },
+      { id: 'acc-scarf', name: 'Scarf', price: 150 },
+      { id: 'acc-beard', name: 'Beard', price: 300 },
+      { id: 'acc-mask', name: 'Face Mask', price: 200 },
+      { id: 'acc-earring', name: 'Earring', price: 350 }
     ],
     background: [
       { id: 'bg-default', name: 'Default', price: 0, css: 'background:linear-gradient(135deg,#FBF7F1,#FFFCF6);' },
@@ -55,7 +70,9 @@
       { id: 'bg-pink', name: 'Pink', price: 100, css: 'background:linear-gradient(135deg,#F2DCDC,#E9C4C4);' },
       { id: 'bg-blue', name: 'Ocean', price: 200, css: 'background:linear-gradient(135deg,#DCEAF5,#B8D4E8);' },
       { id: 'bg-sunset', name: 'Sunset', price: 300, css: 'background:linear-gradient(135deg,#FFE5B4,#FFB6A3);' },
-      { id: 'bg-galaxy', name: 'Galaxy', price: 500, css: 'background:linear-gradient(135deg,#2D2B55,#6B4E9E);' }
+      { id: 'bg-galaxy', name: 'Galaxy', price: 500, css: 'background:linear-gradient(135deg,#2D2B55,#6B4E9E);' },
+      { id: 'bg-forest', name: 'Forest', price: 300, css: 'background:linear-gradient(135deg,#27AE60,#1E8449);' },
+      { id: 'bg-space', name: 'Space', price: 800, css: 'background:linear-gradient(135deg,#0B0B2F,#4A148C);' }
     ]
   };
 
@@ -220,6 +237,16 @@
       // lapels
       s += '<path d="M46,46 L40,55 L43,60 L49,50 Z" fill="#0f0f1e"/>';
       s += '<path d="M54,46 L60,55 L57,60 L51,50 Z" fill="#0f0f1e"/>';
+    } else if (shirt.id === 'shirt-tuxedo') {
+      // white shirt front
+      s += '<rect x="47" y="46" width="6" height="22" fill="#FFFFFF"/>';
+      // bow tie
+      s += '<path d="M43,50 L48,53 L43,56 Z" fill="#000000"/>';
+      s += '<path d="M57,50 L52,53 L57,56 Z" fill="#000000"/>';
+      s += '<rect x="48" y="51" width="4" height="4" rx="1" fill="#000000"/>';
+      // lapels
+      s += '<path d="M46,46 L38,57 L42,63 L49,50 Z" fill="#000000"/>';
+      s += '<path d="M54,46 L62,57 L58,63 L51,50 Z" fill="#000000"/>';
     }
     return s;
   }
@@ -269,6 +296,19 @@
         return '<path d="M34,30 Q34,12 50,12 Q66,12 66,30" stroke="#2C3E50" stroke-width="2.5" fill="none"/>' +
           '<rect x="28" y="28" width="9" height="11" rx="3" fill="#2C3E50"/>' +
           '<rect x="63" y="28" width="9" height="11" rx="3" fill="#2C3E50"/>';
+      case 'acc-scarf':
+        return '<rect x="40" y="42" width="20" height="6" rx="3" fill="#E74C3C"/>' +
+          '<path d="M42,48 L38,56 L42,55 Z" fill="#E74C3C"/>' +
+          '<line x1="42" y1="44" x2="58" y2="44" stroke="rgba(0,0,0,.15)" stroke-width="0.5"/>';
+      case 'acc-beard':
+        return '<path d="M37,34 Q38,46 50,48 Q62,46 63,34 Q58,42 50,42 Q42,42 37,34 Z" fill="#3E2723"/>';
+      case 'acc-mask':
+        return '<path d="M37,34 L63,34 L63,44 Q50,47 37,44 Z" fill="#D5DBDB" stroke="#85929E" stroke-width="0.5"/>' +
+          '<path d="M37,35 L33,37" stroke="#85929E" stroke-width="1" fill="none"/>' +
+          '<path d="M63,35 L67,37" stroke="#85929E" stroke-width="1" fill="none"/>';
+      case 'acc-earring':
+        return '<circle cx="35" cy="37" r="1.8" fill="#F1C40F"/>' +
+          '<circle cx="35" cy="37" r="0.7" fill="#FFFFFF"/>';
       default:
         return '';
     }

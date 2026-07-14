@@ -317,11 +317,11 @@
       return av && av[cat] === itemId;
     }
 
-    function showToast(msg) {
+    function showToast(msg, type) {
       var t = $('aes-toast');
       if (!t) return;
       t.textContent = msg;
-      t.className = 'aes-toast is-show';
+      t.className = 'aes-toast is-show' + (type ? ' is-' + type : '');
       clearTimeout(t._timer);
       t._timer = setTimeout(function() { t.className = 'aes-toast'; }, 3000);
     }
@@ -332,14 +332,21 @@
       var coins = window.AESAvatar.loadCoins();
       var afford = coins >= (item.price || 0);
 
-      var preview = '';
-      if (item.color) {
-        preview = '<div style="width:40px;height:40px;border-radius:50%;background:' + esc(item.color) + ';margin:0 auto;border:2px solid rgba(0,0,0,.1);"></div>';
+      /* Build preview based on item type */
+      var previewInner = '';
+      var previewStyle = '';
+
+      if (cat === 'background' && item.css) {
+        previewStyle = item.css;
+      } else if (item.color) {
+        previewInner = '<div style="width:52px;height:52px;border-radius:50%;background:' + esc(item.color) + ';border:3px solid rgba(255,255,255,.85);box-shadow:0 3px 10px rgba(0,0,0,.18);"></div>';
+      } else {
+        previewInner = '<span style="font-family:\'Fraunces\',serif;font-size:.95rem;color:var(--ink);font-weight:500;text-align:center;line-height:1.3;">' + esc(item.name) + '</span>';
       }
 
       var btn;
       if (equipped) {
-        btn = '<button class="aes-btn aes-btn-sm aes-shop-btn" disabled>Надето</button>';
+        btn = '<button class="aes-btn aes-btn-sm aes-shop-btn is-equipped-btn" disabled>Надето</button>';
       } else if (owned) {
         btn = '<button class="aes-btn aes-btn-sm aes-btn-accent aes-shop-btn" data-equip="' + esc(item.id) + '" data-cat="' + esc(cat) + '">Надеть</button>';
       } else if (afford) {
@@ -348,17 +355,15 @@
         btn = '<button class="aes-btn aes-btn-sm aes-btn-ghost aes-shop-btn" disabled>Купить</button>';
       }
 
-      var bgStyle = (cat === 'background' && item.css) ? item.css : '';
-      var previewClass = 'aes-shop-preview' + (bgStyle ? '' : '');
-
       return '<article class="aes-shop-card' + (equipped ? ' is-equipped' : '') + '">' +
-        '<div class="' + previewClass + '" style="' + bgStyle + '">' +
-          '<span class="aes-shop-emoji">' + esc(preview) + '</span>' +
+        '<div class="aes-shop-preview" style="' + previewStyle + '">' +
+          (equipped ? '<span class="aes-shop-equipped-tag">Надето</span>' : '') +
+          previewInner +
         '</div>' +
         '<div class="aes-shop-body">' +
           '<h3 class="aes-shop-name">' + esc(item.name) + '</h3>' +
           '<div class="aes-shop-foot">' +
-            '<span class="aes-shop-price">' + (item.price || 0) + ' монет</span>' +
+            '<span class="aes-shop-price"><span class="aes-shop-price-icon">🪙</span>' + (item.price || 0) + '</span>' +
             btn +
           '</div>' +
         '</div>' +
@@ -383,8 +388,8 @@
         var items = SI[cat.id] || [];
         if (!items.length) return '';
         var cards = items.map(function(item) { return renderItemCard(cat.id, item); }).join('');
-        return '<div class="aes-shop-section">' +
-          '<h2>' + esc(cat.label) + '</h2>' +
+        return '<div class="aes-shop-section" style="margin-top:2.5rem;">' +
+          '<div class="aes-shop-cat-head"><h2>' + esc(cat.label) + '</h2></div>' +
           '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">' + cards + '</div>' +
         '</div>';
       }).join('');
@@ -401,10 +406,10 @@
         var cat = buyBtn.getAttribute('data-cat');
         var result = window.AESAvatar.buyItem(cat, itemId);
         if (result.success) {
-          showToast('Куплено: ' + (getItem(itemId) || {}).name);
+          showToast('Куплено: ' + (getItem(itemId) || {}).name, 'success');
           renderShop();
         } else {
-          showToast(result.error || 'Ошибка');
+          showToast(result.error || 'Ошибка', 'error');
         }
       }
       if (equipBtn) {
@@ -413,10 +418,10 @@
         var cat2 = equipBtn.getAttribute('data-cat');
         var result2 = window.AESAvatar.equipItem(cat2, itemId2);
         if (result2.success) {
-          showToast('Надето: ' + (getItem(itemId2) || {}).name);
+          showToast('Надето: ' + (getItem(itemId2) || {}).name, 'success');
           renderShop();
         } else {
-          showToast(result2.error || 'Ошибка');
+          showToast(result2.error || 'Ошибка', 'error');
         }
       }
     });
@@ -452,5 +457,6 @@
     });
   })();
   </script>
+  <script src="assets/js/ai-assistant.js"></script>
 </body>
 </html>

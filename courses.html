@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курсы — Lingua AI English School</title>
-  <meta name="description" content="Просматривайте адаптивные AI-курсы английского. От разговоров для начинающих до мастерства IELTS и делового английского.">
+  <meta name="description" content="Просматривайте адаптивные AI-курсы иностранных языков: английского, французского, немецкого и испанского. От разговоров для начинающих до продвинутого уровня.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,7 +82,7 @@
           </h1>
         </div>
         <div class="lg:col-span-4 reveal" style="--d:.12s">
-          <p class="text-ink/65 text-lg leading-relaxed">Восемь живых курсов, каждый настроен AI-репетитором, который учится так же, как вы. Купите любой курс — корзина сохранит его между страницами.</p>
+          <p class="text-ink/65 text-lg leading-relaxed">Живые курсы на четырёх языках — английском, французском, немецком и испанском. Каждый настроен AI-репетитором, который учится так же, как вы. Купите любой курс — корзина сохранит его между страницами.</p>
         </div>
       </div>
     </div>
@@ -116,6 +116,14 @@
   <section class="px-5 md:px-10 pb-24">
     <div class="max-w-7xl mx-auto">
 
+      <!-- language switcher tabs -->
+      <div class="flex flex-wrap gap-2.5 mb-6">
+        <a href="courses.html?lang=en" class="aes-filter" data-lang="en">Английский</a>
+        <a href="courses.html?lang=fr" class="aes-filter" data-lang="fr">Французский</a>
+        <a href="courses.html?lang=de" class="aes-filter" data-lang="de">Немецкий</a>
+        <a href="courses.html?lang=es" class="aes-filter" data-lang="es">Испанский</a>
+      </div>
+
       <!-- filter tabs -->
       <div id="filter-bar" class="flex flex-wrap gap-2.5 mb-10 reveal">
         <button class="aes-filter is-active" data-filter="all">Все курсы</button>
@@ -128,28 +136,6 @@
 
       <!-- course grid (rendered by main.js) -->
       <div id="courses-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
-
-      <!-- assurance row -->
-      <div class="grid sm:grid-cols-3 gap-6 mt-16 reveal">
-        <div class="flex items-start gap-4">
-          <span class="w-11 h-11 rounded-2xl bg-lavender/50 grid place-items-center text-ink shrink-0">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
-          </span>
-          <div><p class="font-medium text-ink">Гарантия 7 дней</p><p class="text-sm text-ink/55">Не подошёл? Вернём деньги.</p></div>
-        </div>
-        <div class="flex items-start gap-4">
-          <span class="w-11 h-11 rounded-2xl bg-mint/50 grid place-items-center text-ink shrink-0">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
-          </span>
-          <div><p class="font-medium text-ink">Учитесь в своём темпе</p><p class="text-sm text-ink/55">Нет расписания. Репетитор ждёт вас.</p></div>
-        </div>
-        <div class="flex items-start gap-4">
-          <span class="w-11 h-11 rounded-2xl bg-dustyPink/50 grid place-items-center text-ink shrink-0">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12a4 4 0 018 0M9 9h.01M15 9h.01"/></svg>
-          </span>
-          <div><p class="font-medium text-ink">Живая поддержка</p><p class="text-sm text-ink/55">AI-обучение с преподавателями на связи.</p></div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -222,5 +208,6 @@
   <script src="assets/js/payment.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/ai-assistant.js"></script>
 </body>
 </html>
