@@ -58,6 +58,15 @@
                     { q: 'Choose the correct order: "___ to ___ you!"', options: ['Nice / meet', 'Good / see', 'Hello / know', 'Hi / call'], answer: 0, explain: 'The phrase is "Nice to meet you!"' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "Good ___! How are you?" (before noon)', answer: 'morning', explain: '«Good morning» используют до полудня.' },
+                    { type: 'choice', question: 'Choose the casual greeting:', options: ['Hello', 'Hi', 'Greetings', 'Salutations'], answer: 1, explain: '«Hi» — неформальный вариант «Hello».' },
+                    { type: 'translate', question: 'Translate to English: "Приятно познакомиться!"', answer: 'Nice to meet you', explain: 'Так говорят при первой встрече.' },
+                    { type: 'order', question: 'Put in order to make a greeting:', words: ['meet', 'Nice', 'you', 'to'], answer: 'Nice to meet you', explain: 'Правильный порядок: «Nice to meet you».' },
+                    { type: 'correct', question: 'Find and correct: "How are you? — I am 25."', answer: 'How are you? — I\'m fine, thanks.', explain: 'На вопрос «How are you?» отвечают о самочувствии, а не о возрасте.' }
+                  ]
                 }
               },
               {
@@ -95,6 +104,15 @@
                     { q: 'What does "spell" mean?', options: ['To write a story', 'To say the letters of a word', 'To count numbers', 'To read aloud'], answer: 1, explain: 'To "spell" is to say each letter of a word.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "How do you ___ that?" (asking to spell)', answer: 'spell', explain: '«How do you spell that?» — просьба продиктовать по буквам.' },
+                    { type: 'choice', question: 'How many letters are in the English alphabet?', options: ['24', '25', '26', '27'], answer: 2, explain: 'В английском алфавите 26 букв, от A до Z.' },
+                    { type: 'translate', question: 'Translate to English: "Как пишется ваше имя?"', answer: 'How do you spell your name?', explain: 'Стандартный вопрос о написании имени.' },
+                    { type: 'order', question: 'Put in order (phonetic alphabet):', words: ['Banana', 'B', 'for'], answer: 'B for Banana', explain: '«B for Banana» — пример фонетического алфавита.' },
+                    { type: 'correct', question: 'Find and correct: "SCHOOL is spelled S-K-O-L."', answer: 'SCHOOL is spelled S-C-H-O-O-L.', explain: 'Правильное написание: S-C-H-O-O-L.' }
+                  ]
                 }
               },
               {
@@ -132,6 +150,15 @@
                     { q: 'What is "twenty-one"?', options: ['12', '21', '20+1=21', 'Both B and C'], answer: 3, explain: 'Twenty-one = 21. It uses a hyphen.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "How ___ is it?" (asking the price)', answer: 'much', explain: '«How much is it?» — вопрос о цене.' },
+                    { type: 'choice', question: 'What is the number 15 in words?', options: ['Fifty', 'Five', 'Fifteen', 'Fiveteen'], answer: 2, explain: '15 = «fifteen». Обратите внимание: «fifty» = 50.' },
+                    { type: 'translate', question: 'Translate to English: "Сколько тебе лет?"', answer: 'How old are you?', explain: '«How old are you?» — вопрос о возрасте.' },
+                    { type: 'order', question: 'Put the number words in order (11, 12, 13):', words: ['twelve', 'eleven', 'thirteen'], answer: 'eleven twelve thirteen', explain: '11 = eleven, 12 = twelve, 13 = thirteen.' },
+                    { type: 'correct', question: 'Find and correct: "19 is spelled ninteen."', answer: '19 is spelled nineteen.', explain: 'Правильное написание: nineteen.' }
+                  ]
                 }
               }
             ]
@@ -174,6 +201,15 @@
                     { q: 'Complete: "We ___ from Spain."', options: ['am', 'is', 'are', 'be'], answer: 2, explain: 'We uses "are": We are from Spain.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "She ___ a doctor."', answer: 'is', explain: 'С he/she/it используем «is».' },
+                    { type: 'choice', question: 'What is the contraction of "They are"?', options: ['They\'re', 'Their', 'There', 'They\'m'], answer: 0, explain: '«They are» сокращается до «They\'re».' },
+                    { type: 'translate', question: 'Translate to English: "Мы из Испании."', answer: 'We are from Spain.', explain: 'С «we» используем «are»: We are from Spain.' },
+                    { type: 'order', question: 'Put in order to make a question:', words: ['student', 'Are', 'a', 'you'], answer: 'Are you a student', explain: 'В вопросе глагол ставится первым: «Are you a student?»' },
+                    { type: 'correct', question: 'Find and correct: "They is here."', answer: 'They are here.', explain: 'С «they» нужно использовать «are», а не «is».' }
+                  ]
                 }
               },
               {
@@ -211,6 +247,15 @@
                     { q: 'What pattern do many nationalities follow?', options: ['-ish', '-an', '-ous', '-ful'], answer: 1, explain: 'Many end in "-an": American, Italian, Mexican.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "I live ___ Berlin."', answer: 'in', explain: '«Live in» используется с городами и странами.' },
+                    { type: 'choice', question: 'What is the nationality of someone from Japan?', options: ['Japanish', 'Japanese', 'Japanan', 'Japanese'], answer: 1, explain: 'Япония → Japanese (окончание -ese).' },
+                    { type: 'translate', question: 'Translate to English: "Я из Бразилии."', answer: 'I am from Brazil.', explain: '«I am from» + страна: I am from Brazil.' },
+                    { type: 'order', question: 'Put in order to make a question:', words: ['from', 'Where', 'you', 'are'], answer: 'Where are you from', explain: 'Правильный порядок: «Where are you from?»' },
+                    { type: 'correct', question: 'Find and correct: "I\'m from brazil."', answer: 'I\'m from Brazil.', explain: 'Названия стран всегда пишутся с большой буквы.' }
+                  ]
                 }
               },
               {
@@ -248,6 +293,15 @@
                     { q: 'How do you ask about siblings?', options: ['How are your siblings?', 'Do you have any siblings?', 'What is your sibling?', 'Where is your sibling?'], answer: 1, explain: '"Do you have any siblings?" is the standard question.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "My father\'s brother is my ___."', answer: 'uncle', explain: 'Брат отца или матери — это дядя (uncle).' },
+                    { type: 'choice', question: 'What are "siblings"?', options: ['Parents', 'Brothers and sisters', 'Grandparents', 'Children'], answer: 1, explain: '«Siblings» — это братья и сёстры.' },
+                    { type: 'translate', question: 'Translate to English: "У меня есть сестра."', answer: 'I have a sister.', explain: '«I have a sister» — у меня есть сестра.' },
+                    { type: 'order', question: 'Put in order:', words: ['brother', 'My', 'is', 'tall'], answer: 'My brother is tall', explain: 'Правильный порядок: «My brother is tall».' },
+                    { type: 'correct', question: 'Find and correct: "I brother is tall."', answer: 'My brother is tall.', explain: 'Нужно использовать притяжательное местоимение «my», а не «I».' }
+                  ]
                 }
               }
             ]
@@ -298,6 +352,15 @@
                     { q: 'What is 7:15 in traditional English?', options: ['A quarter past seven', 'Seven fifteen', 'A quarter to eight', 'Both A and B'], answer: 3, explain: '7:15 = "a quarter past seven" or "seven fifteen."' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "It\'s half ___ three." (3:30)', answer: 'past', explain: '3:30 традиционно — «half past three».' },
+                    { type: 'choice', question: 'What does "a.m." mean?', options: ['Afternoon', 'Before noon', 'Evening', 'Night'], answer: 1, explain: 'a.m. — это время до полудня (утро).' },
+                    { type: 'translate', question: 'Translate to English: "Который час?"', answer: 'What time is it?', explain: 'Стандартный вопрос о времени — «What time is it?»' },
+                    { type: 'order', question: 'Put in order (3:30 traditional):', words: ['past', 'half', 'three'], answer: 'half past three', explain: 'Правильный порядок: «half past three».' },
+                    { type: 'correct', question: 'Find and correct: "The meeting is in 3 o\'clock."', answer: 'The meeting is at 3 o\'clock.', explain: 'С-clock times используем предлог «at», а не «in».' }
+                  ]
                 }
               },
               {
@@ -335,6 +398,15 @@
                     { q: 'Complete: "___ she speak English?"', options: ['Do', 'Does', 'Is', 'Are'], answer: 1, explain: 'Use "Does" with she: "Does she speak English?"' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "She ___ coffee every morning."', answer: 'drinks', explain: 'С he/she/it добавляем -s: «She drinks coffee».' },
+                    { type: 'choice', question: 'How do you make the negative of "I work"?', options: ['I no work', 'I don\'t work', 'I not work', 'I am not work'], answer: 1, explain: 'Отрицание: «I don\'t work».' },
+                    { type: 'translate', question: 'Translate to English: "Я встаю в 7."', answer: 'I get up at 7.', explain: '«I get up at 7» — я встаю в 7.' },
+                    { type: 'order', question: 'Put in order:', words: ['breakfast', 'always', 'I', 'eat'], answer: 'I always eat breakfast', explain: 'Наречие частотности ставится перед основным глаголом: «I always eat breakfast».' },
+                    { type: 'correct', question: 'Find and correct: "He work hard."', answer: 'He works hard.', explain: 'С he нужно добавить -s: «He works hard».' }
+                  ]
                 }
               },
               {
@@ -372,6 +444,15 @@
                     { q: 'What is the ordinal for "1"?', options: ['One', 'First', 'Oneth', 'Onest'], answer: 1, explain: '1st = "first."' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "What\'s the ___ today?" (asking the date)', answer: 'date', explain: '«What\'s the date today?» — стандартный вопрос о дате.' },
+                    { type: 'choice', question: 'Which days are the weekend in most English-speaking countries?', options: ['Friday and Saturday', 'Saturday and Sunday', 'Sunday and Monday', 'Monday and Tuesday'], answer: 1, explain: 'Выходные — это суббота и воскресенье.' },
+                    { type: 'translate', question: 'Translate to English: "Сегодня понедельник."', answer: 'Today is Monday.', explain: '«Today is Monday» — сегодня понедельник.' },
+                    { type: 'order', question: 'Put the days in order (first three):', words: ['Tuesday', 'Wednesday', 'Monday'], answer: 'Monday Tuesday Wednesday', explain: 'Порядок: Monday (1), Tuesday (2), Wednesday (3).' },
+                    { type: 'correct', question: 'Find and correct: "monday is the first day."', answer: 'Monday is the first day.', explain: 'Дни недели всегда пишутся с большой буквы.' }
+                  ]
                 }
               }
             ]
@@ -414,6 +495,15 @@
                     { q: 'Which is the MOST polite?', options: ['Give me a tea', 'I want tea', 'Could I get a tea, please?', 'Tea'], answer: 2, explain: '"Could I get a tea, please?" is the most polite option.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "Can I have a coffee, ___?"', answer: 'please', explain: 'Всегда добавляйте «please» при заказе.' },
+                    { type: 'choice', question: 'How do you ask for the check in British English?', options: ['The check, please', 'The bill, please', 'Money, please', 'Give me bill'], answer: 1, explain: 'В британском английском счёт называют «the bill».' },
+                    { type: 'translate', question: 'Translate to English: "Можно кофе, пожалуйста?"', answer: 'Can I have a coffee, please?', explain: '«Can I have a coffee, please?» — вежливый заказ.' },
+                    { type: 'order', question: 'Put in order:', words: ['soup', 'like', 'I\'d', 'the'], answer: 'I\'d like the soup', explain: '«I\'d like the soup» = я хотел бы суп.' },
+                    { type: 'correct', question: 'Find and correct: "Give me a coffee."', answer: 'Can I have a coffee, please?', explain: '«Give me» — грубо. Лучше: «Can I have a coffee, please?»' }
+                  ]
                 }
               },
               {
@@ -451,6 +541,15 @@
                     { q: 'What does "on the corner of" mean?', options: ['In the middle', 'At the intersection', 'Behind something', 'Far away'], answer: 1, explain: '"On the corner of" = at the intersection of two streets.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "___ me, where is the station?"', answer: 'Excuse', explain: '«Excuse me» — вежливое обращение к незнакомцу.' },
+                    { type: 'choice', question: 'What does "across from" mean?', options: ['Next to', 'Opposite', 'Behind', 'Between'], answer: 1, explain: '«Across from» означает напротив.' },
+                    { type: 'translate', question: 'Translate to English: "Извините, как пройти к музею?"', answer: 'Excuse me, how do I get to the museum?', explain: '«How do I get to...?» — как пройти к...?' },
+                    { type: 'order', question: 'Put in order:', words: ['ahead', 'Go', 'straight'], answer: 'Go straight ahead', explain: '«Go straight ahead» — идите прямо.' },
+                    { type: 'correct', question: 'Find and correct: "The bank is go the post office."', answer: 'The bank is next to the post office.', explain: 'Нужен предлог места: «next to» (рядом с).' }
+                  ]
                 }
               },
               {
@@ -488,6 +587,15 @@
                     { q: 'What is a good small talk compliment?', options: ['You look tired', 'I love your jacket!', 'How much did that cost?', 'Are you sick?'], answer: 1, explain: 'Compliments like "I love your jacket!" are great small talk.' }
                   ],
                   showCount: 5, passThreshold: 0.5
+                },
+                homework: {
+                  exercises: [
+                    { type: 'fill-blank', question: 'Complete: "It\'s raining cats and ___."', answer: 'dogs', explain: '«Raining cats and dogs» — идиома, означающая сильный дождь.' },
+                    { type: 'choice', question: 'What is the #1 small talk topic in English?', options: ['Politics', 'The weather', 'Money', 'Age'], answer: 1, explain: 'Погода — самая популярная тема для small talk.' },
+                    { type: 'translate', question: 'Translate to English: "Какая сегодня прекрасная погода!"', answer: 'Lovely weather today!', explain: '«Lovely weather today!» — классическая фраза для small talk.' },
+                    { type: 'order', question: 'Put in order:', words: ['worries', 'No'], answer: 'No worries', explain: '«No worries» = «без проблем».' },
+                    { type: 'correct', question: 'Find and correct: "Have a good one! means Have one item."', answer: 'Have a good one! means Have a good day.', explain: '«Have a good one!» означает «хорошего дня!» (дружеское прощание).' }
+                  ]
                 }
               }
             ]
