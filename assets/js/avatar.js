@@ -1,7 +1,7 @@
 /* ============================================================
-   AES Avatar System - Skin & Accessories
-   - Avatar created on first login
-   - Coins spent on accessories in shop
+   AES Avatar System - Layered SVG Character
+   - A character made of SKIN + CLOTHES bought with coins
+   - Items: skin, shirt, pants, hair, accessory, background
    - Stored in localStorage
    ============================================================ */
 (function (global) {
@@ -11,49 +11,76 @@
   var COIN_KEY = 'aes_coins';
 
   var SHOP_ITEMS = {
-    base: [
-      { id: 'base-default', emoji: '\u{1F9D1}', name: 'Standard', price: 0 },
-      { id: 'base-boy', emoji: '\u{1F468}', name: 'Boy', price: 100 },
-      { id: 'base-girl', emoji: '\u{1F469}', name: 'Girl', price: 100 },
-      { id: 'base-cool', emoji: '\u{1F60E}', name: 'Cool', price: 250 },
-      { id: 'base-nerd', emoji: '\u{1F913}', name: 'Nerd', price: 250 },
-      { id: 'base-star', emoji: '\u{1F929}', name: 'Star', price: 500 },
-      { id: 'base-cat', emoji: '\u{1F431}', name: 'Cat', price: 600 },
-      { id: 'base-robot', emoji: '\u{1F916}', name: 'Robot', price: 800 }
+    skin: [
+      { id: 'skin-1', name: 'Light', price: 0 },
+      { id: 'skin-2', name: 'Medium', price: 0 },
+      { id: 'skin-3', name: 'Dark', price: 0 }
     ],
-    hat: [
-      { id: 'hat-none', emoji: '', name: 'No hat', price: 0 },
-      { id: 'hat-grad', emoji: '\u{1F393}', name: 'Graduate', price: 200 },
-      { id: 'hat-crown', emoji: '\u{1F451}', name: 'Crown', price: 1000 },
-      { id: 'hat-cap', emoji: '\u{1F9E2}', name: 'Cap', price: 150 },
-      { id: 'hat-top', emoji: '\u{1F3A9}', name: 'Top hat', price: 300 },
-      { id: 'hat-party', emoji: '\u{1F973}', name: 'Party', price: 400 }
+    shirt: [
+      { id: 'shirt-basic', name: 'Basic White', price: 0, color: '#FFFFFF' },
+      { id: 'shirt-blue', name: 'Blue Shirt', price: 100, color: '#4A90D9' },
+      { id: 'shirt-red', name: 'Red Shirt', price: 100, color: '#E74C3C' },
+      { id: 'shirt-green', name: 'Green Shirt', price: 150, color: '#27AE60' },
+      { id: 'shirt-purple', name: 'Purple Shirt', price: 200, color: '#9D7BC4' },
+      { id: 'shirt-black', name: 'Black Shirt', price: 200, color: '#2C3E50' },
+      { id: 'shirt-hoodie', name: 'Hoodie', price: 500, color: '#34495E' },
+      { id: 'shirt-suit', name: 'Business Suit', price: 1000, color: '#1a1a2e' }
     ],
-    glasses: [
-      { id: 'glasses-none', emoji: '', name: 'No glasses', price: 0 },
-      { id: 'glasses-round', emoji: '\u{1F453}', name: 'Round', price: 150 },
-      { id: 'glasses-sun', emoji: '\u{1F576}\u{FE0F}', name: 'Sunglasses', price: 300 },
-      { id: 'glasses-3d', emoji: '\u{1F97D}', name: '3D glasses', price: 350 }
+    pants: [
+      { id: 'pants-basic', name: 'Basic Jeans', price: 0, color: '#5D6D7E' },
+      { id: 'pants-black', name: 'Black Pants', price: 100, color: '#2C3E50' },
+      { id: 'pants-blue', name: 'Blue Jeans', price: 100, color: '#2980B9' },
+      { id: 'pants-khaki', name: 'Khaki Pants', price: 150, color: '#B7950B' },
+      { id: 'pants-short', name: 'Shorts', price: 200, color: '#85929E' }
+    ],
+    hair: [
+      { id: 'hair-short', name: 'Short Hair', price: 0, color: '#3E2723' },
+      { id: 'hair-long', name: 'Long Hair', price: 150, color: '#3E2723' },
+      { id: 'hair-blonde', name: 'Blonde', price: 200, color: '#F1C40F' },
+      { id: 'hair-red', name: 'Red Hair', price: 250, color: '#C0392B' },
+      { id: 'hair-white', name: 'White Hair', price: 400, color: '#ECF0F1' },
+      { id: 'hair-blue', name: 'Blue Hair', price: 500, color: '#2980B9' }
     ],
     accessory: [
-      { id: 'acc-none', emoji: '', name: 'None', price: 0 },
-      { id: 'acc-headphones', emoji: '\u{1F3A7}', name: 'Headphones', price: 200 },
-      { id: 'acc-flower', emoji: '\u{1F338}', name: 'Flower', price: 100 },
-      { id: 'acc-fire', emoji: '\u{1F525}', name: 'Fire', price: 500 },
-      { id: 'acc-sparkle', emoji: '\u{2728}', name: 'Sparkle', price: 250 },
-      { id: 'acc-bolt', emoji: '\u{26A1}', name: 'Bolt', price: 400 }
+      { id: 'acc-none', name: 'None', price: 0 },
+      { id: 'acc-glasses', name: 'Glasses', price: 150 },
+      { id: 'acc-sunglasses', name: 'Sunglasses', price: 300 },
+      { id: 'acc-cap', name: 'Cap', price: 200 },
+      { id: 'acc-crown', name: 'Crown', price: 1000 },
+      { id: 'acc-headphones', name: 'Headphones', price: 250 }
     ],
     background: [
-      { id: 'bg-default', name: 'Standard', price: 0, css: 'background:linear-gradient(135deg,#E5DAF0,#CDBCE6);' },
+      { id: 'bg-default', name: 'Default', price: 0, css: 'background:linear-gradient(135deg,#FBF7F1,#FFFCF6);' },
       { id: 'bg-mint', name: 'Mint', price: 100, css: 'background:linear-gradient(135deg,#D6EBDC,#BFE3CE);' },
       { id: 'bg-pink', name: 'Pink', price: 100, css: 'background:linear-gradient(135deg,#F2DCDC,#E9C4C4);' },
-      { id: 'bg-cream', name: 'Cream', price: 100, css: 'background:linear-gradient(135deg,#FBF1DD,#F3E2B8);' },
       { id: 'bg-blue', name: 'Ocean', price: 200, css: 'background:linear-gradient(135deg,#DCEAF5,#B8D4E8);' },
       { id: 'bg-sunset', name: 'Sunset', price: 300, css: 'background:linear-gradient(135deg,#FFE5B4,#FFB6A3);' },
       { id: 'bg-galaxy', name: 'Galaxy', price: 500, css: 'background:linear-gradient(135deg,#2D2B55,#6B4E9E);' }
     ]
   };
 
+  var SKIN_COLORS = {
+    'skin-1': '#F4C9A0',
+    'skin-2': '#C8956A',
+    'skin-3': '#7A4A2B'
+  };
+
+  var DEFAULTS = {
+    skin: 'skin-1',
+    shirt: 'shirt-basic',
+    pants: 'pants-basic',
+    hair: 'hair-short',
+    accessory: 'acc-none',
+    background: 'bg-default'
+  };
+
+  var DEFAULT_OWNED = [
+    'skin-1', 'skin-2', 'skin-3',
+    'shirt-basic', 'pants-basic', 'hair-short',
+    'acc-none', 'bg-default'
+  ];
+
+  /* ---------- storage ---------- */
   function loadAvatar() {
     try { return JSON.parse(localStorage.getItem(AVATAR_KEY) || 'null'); }
     catch (e) { return null; }
@@ -72,15 +99,39 @@
     try { localStorage.setItem(COIN_KEY, String(n)); } catch (e) {}
   }
 
+  /* ---------- avatar helpers ---------- */
   function createDefaultAvatar() {
     return {
-      base: 'base-default',
-      hat: 'hat-none',
-      glasses: 'glasses-none',
+      skin: 'skin-1',
+      shirt: 'shirt-basic',
+      pants: 'pants-basic',
+      hair: 'hair-short',
       accessory: 'acc-none',
       background: 'bg-default',
-      owned: ['base-default', 'hat-none', 'glasses-none', 'acc-none', 'bg-default']
+      owned: DEFAULT_OWNED.slice()
     };
+  }
+
+  function migrateAvatar(av) {
+    var changed = false;
+    Object.keys(DEFAULTS).forEach(function (cat) {
+      if (!av[cat] || !getItem(cat, av[cat])) {
+        av[cat] = DEFAULTS[cat];
+        changed = true;
+      }
+    });
+    if (!av.owned || !Array.isArray(av.owned)) {
+      av.owned = [];
+      changed = true;
+    }
+    DEFAULT_OWNED.forEach(function (id) {
+      if (av.owned.indexOf(id) < 0) {
+        av.owned.push(id);
+        changed = true;
+      }
+    });
+    if (changed) saveAvatar(av);
+    return av;
   }
 
   function ensureAvatar() {
@@ -88,6 +139,8 @@
     if (!av) {
       av = createDefaultAvatar();
       saveAvatar(av);
+    } else {
+      migrateAvatar(av);
     }
     return av;
   }
@@ -95,11 +148,14 @@
   function getItem(category, id) {
     var items = SHOP_ITEMS[category];
     if (!items) return null;
-    return items.find(function(item) { return item.id === id; });
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === id) return items[i];
+    }
+    return null;
   }
 
   function isOwned(avatar, itemId) {
-    return avatar.owned && avatar.owned.indexOf(itemId) >= 0;
+    return !!(avatar && avatar.owned && avatar.owned.indexOf(itemId) >= 0);
   }
 
   function buyItem(category, itemId) {
@@ -124,30 +180,145 @@
     return { success: true };
   }
 
+  /* ---------- SVG layer renderers ---------- */
+  function skinColor(id) {
+    return SKIN_COLORS[id] || SKIN_COLORS['skin-1'];
+  }
+
+  function escAttr(s) {
+    return String(s == null ? '' : s).replace(/"/g, '&quot;');
+  }
+
+  function renderPants(pants, pc) {
+    if (!pants) return '';
+    var c = escAttr(pc);
+    if (pants.id === 'pants-short') {
+      return '<path d="M34,74 L66,74 L67,84 L54,84 L50,78 L46,84 L33,84 Z" fill="' + c + '"/>';
+    }
+    return '<path d="M34,74 L66,74 L67,94 L54,94 L50,80 L46,94 L33,94 Z" fill="' + c + '"/>';
+  }
+
+  function renderShirt(shirt, shc) {
+    if (!shirt) return '';
+    var c = escAttr(shc);
+    var s = '';
+    // sleeves
+    s += '<rect x="25" y="50" width="11" height="17" rx="5" fill="' + c + '"/>';
+    s += '<rect x="64" y="50" width="11" height="17" rx="5" fill="' + c + '"/>';
+    // torso
+    s += '<path d="M32,50 Q40,46 50,46 Q60,46 68,50 L66,76 L34,76 Z" fill="' + c + '"/>';
+    if (shirt.id === 'shirt-hoodie') {
+      s += '<path d="M40,50 Q50,42 60,50 L56,46 Q50,40 44,46 Z" fill="' + c + '"/>';
+      s += '<path d="M40,50 Q50,42 60,50" stroke="rgba(0,0,0,.18)" stroke-width="1" fill="none"/>';
+      s += '<rect x="43" y="60" width="14" height="9" rx="2" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"/>';
+      s += '<line x1="50" y1="46" x2="50" y2="54" stroke="rgba(0,0,0,.18)" stroke-width="1"/>';
+    } else if (shirt.id === 'shirt-suit') {
+      // white shirt collar
+      s += '<path d="M46,46 L50,54 L54,46 Z" fill="#FFFFFF"/>';
+      // tie
+      s += '<path d="M48,54 L52,54 L51,70 L49,70 Z" fill="#C0392B"/>';
+      // lapels
+      s += '<path d="M46,46 L40,55 L43,60 L49,50 Z" fill="#0f0f1e"/>';
+      s += '<path d="M54,46 L60,55 L57,60 L51,50 Z" fill="#0f0f1e"/>';
+    }
+    return s;
+  }
+
+  function renderHair(hair, hc) {
+    if (!hair) return '';
+    var c = escAttr(hc);
+    var s = '';
+    if (hair.id === 'hair-long') {
+      s += '<path d="M33,29 Q29,52 35,70 L41,68 Q37,49 39,30 Z" fill="' + c + '"/>';
+      s += '<path d="M67,29 Q71,52 65,70 L59,68 Q63,49 61,30 Z" fill="' + c + '"/>';
+    }
+    // top cap
+    s += '<path d="M33,30 Q32,13 50,13 Q68,13 67,30 Q60,21 50,20 Q40,21 33,30 Z" fill="' + c + '"/>';
+    return s;
+  }
+
+  function renderFace() {
+    return '<circle cx="44" cy="31" r="1.5" fill="#3A3550"/>' +
+      '<circle cx="56" cy="31" r="1.5" fill="#3A3550"/>' +
+      '<path d="M46,37 Q50,39 54,37" stroke="#3A3550" stroke-width="1.2" fill="none" stroke-linecap="round"/>';
+  }
+
+  function renderAccessory(acc) {
+    if (!acc) return '';
+    switch (acc.id) {
+      case 'acc-glasses':
+        return '<g stroke="#3A3550" stroke-width="1.4" fill="none">' +
+          '<circle cx="43" cy="31" r="4"/>' +
+          '<circle cx="57" cy="31" r="4"/>' +
+          '<line x1="47" y1="31" x2="53" y2="31"/>' +
+          '</g>';
+      case 'acc-sunglasses':
+        return '<g fill="#2C3E50" stroke="#1a1a2e" stroke-width="1">' +
+          '<rect x="38" y="27" width="10" height="8" rx="2"/>' +
+          '<rect x="52" y="27" width="10" height="8" rx="2"/>' +
+          '<line x1="48" y1="31" x2="52" y2="31" stroke="#1a1a2e"/>' +
+          '</g>';
+      case 'acc-cap':
+        return '<path d="M34,23 Q34,12 50,12 Q66,12 66,23 L66,25 L34,25 Z" fill="#E74C3C"/>' +
+          '<rect x="28" y="25" width="44" height="3" rx="1.5" fill="#C0392B"/>' +
+          '<circle cx="50" cy="16" r="2" fill="#FFFFFF"/>';
+      case 'acc-crown':
+        return '<path d="M36,18 L40,11 L44,18 L50,9 L56,18 L60,11 L64,18 L64,22 L36,22 Z" fill="#F1C40F" stroke="#C0902B" stroke-width="0.8"/>' +
+          '<circle cx="50" cy="13" r="1.5" fill="#E74C3C"/>';
+      case 'acc-headphones':
+        return '<path d="M34,30 Q34,12 50,12 Q66,12 66,30" stroke="#2C3E50" stroke-width="2.5" fill="none"/>' +
+          '<rect x="28" y="28" width="9" height="11" rx="3" fill="#2C3E50"/>' +
+          '<rect x="63" y="28" width="9" height="11" rx="3" fill="#2C3E50"/>';
+      default:
+        return '';
+    }
+  }
+
+  /* ---------- main render ---------- */
   function renderAvatar(avatar, size) {
     avatar = avatar || ensureAvatar();
     size = size || 48;
-    var baseItem = getItem('base', avatar.base) || SHOP_ITEMS.base[0];
-    var hatItem = getItem('hat', avatar.hat) || SHOP_ITEMS.hat[0];
-    var glassesItem = getItem('glasses', avatar.glasses) || SHOP_ITEMS.glasses[0];
-    var accItem = getItem('accessory', avatar.accessory) || SHOP_ITEMS.accessory[0];
-    var bgItem = getItem('background', avatar.background) || SHOP_ITEMS.background[0];
 
-    var bg = bgItem ? bgItem.css : 'background:linear-gradient(135deg,#E5DAF0,#CDBCE6);';
+    var skin = getItem('skin', avatar.skin) || SHOP_ITEMS.skin[0];
+    var shirt = getItem('shirt', avatar.shirt) || SHOP_ITEMS.shirt[0];
+    var pants = getItem('pants', avatar.pants) || SHOP_ITEMS.pants[0];
+    var hair = getItem('hair', avatar.hair) || SHOP_ITEMS.hair[0];
+    var acc = getItem('accessory', avatar.accessory) || SHOP_ITEMS.accessory[0];
+    var bg = getItem('background', avatar.background) || SHOP_ITEMS.background[0];
 
-    var layers = '';
-    if (hatItem && hatItem.emoji) layers += '<span class="aes-avatar-hat">' + hatItem.emoji + '</span>';
-    if (baseItem && baseItem.emoji) layers += '<span class="aes-avatar-base">' + baseItem.emoji + '</span>';
-    if (glassesItem && glassesItem.emoji) layers += '<span class="aes-avatar-glasses">' + glassesItem.emoji + '</span>';
-    if (accItem && accItem.emoji) layers += '<span class="aes-avatar-acc">' + accItem.emoji + '</span>';
+    var bgCss = bg && bg.css ? bg.css : SHOP_ITEMS.background[0].css;
+    var sc = skinColor(skin.id);
+    var hc = (hair && hair.color) || '#3E2723';
+    var shc = (shirt && shirt.color) || '#FFFFFF';
+    var pc = (pants && pants.color) || '#5D6D7E';
 
-    return '<div class="aes-avatar" style="width:' + size + 'px;height:' + size + 'px;' + bg + '">' + layers + '</div>';
+    var svg = '<svg viewBox="0 0 100 100" width="' + size + '" height="' + size + '" xmlns="http://www.w3.org/2000/svg">';
+    // 1. neck (skin)
+    svg += '<rect x="45" y="44" width="10" height="7" fill="' + escAttr(sc) + '"/>';
+    // 2. pants
+    svg += renderPants(pants, pc);
+    // 3. shirt (torso + sleeves)
+    svg += renderShirt(shirt, shc);
+    // 4. head + ears
+    svg += '<circle cx="50" cy="32" r="15" fill="' + escAttr(sc) + '"/>';
+    svg += '<circle cx="35" cy="33" r="2.5" fill="' + escAttr(sc) + '"/>';
+    svg += '<circle cx="65" cy="33" r="2.5" fill="' + escAttr(sc) + '"/>';
+    // 5. hair
+    svg += renderHair(hair, hc);
+    // 6. face
+    svg += renderFace();
+    // 7. accessory
+    svg += renderAccessory(acc);
+    svg += '</svg>';
+
+    return '<div class="aes-avatar" style="width:' + size + 'px;height:' + size + 'px;' + bgCss + '">' + svg + '</div>';
   }
 
+  /* ---------- header / coins ---------- */
   function renderHeader() {
-    var slots = document.querySelectorAll('.aes-avatar-slot');
     var avatar = ensureAvatar();
-    slots.forEach(function(slot) {
+    var slots = document.querySelectorAll('.aes-avatar-slot');
+    Array.prototype.forEach.call(slots, function (slot) {
       slot.innerHTML = renderAvatar(avatar, 36);
     });
   }
@@ -155,7 +326,7 @@
   function renderCoins() {
     var els = document.querySelectorAll('.aes-coin-balance');
     var coins = loadCoins();
-    els.forEach(function(el) { el.textContent = coins; });
+    Array.prototype.forEach.call(els, function (el) { el.textContent = coins; });
   }
 
   function init() {

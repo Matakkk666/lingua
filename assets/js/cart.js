@@ -272,7 +272,7 @@
         </div>
         <h2 class="font-display text-2xl text-ink mt-6">Всё готово!</h2>
         <p class="text-sm text-ink/60 mt-2">Заказ <strong class="text-ink">${state.lastOrderId || 'AES-00000'}</strong> подтверждён.</p>
-        <p class="text-sm text-ink/60 mt-1">Чек отправлен на почту. Ваш репетитор разогревается.</p>
+        <p class="text-sm text-ink/60 mt-1">Курс доступен в разделе «Мои курсы».</p>
         <p class="font-display text-xl text-ink mt-6">Оплачено</p>
         <p class="font-display text-3xl text-ink">${money(state.lastTotal || 0)}</p>
       </div>`;

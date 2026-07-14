@@ -32,6 +32,7 @@
   const state = {
     activeLessonIdx: 0,
     activeTab: 'theory',
+    theoryLang: 'orig',
     completedSections: loadProgress(),
     quizState: null,
     homeworkState: null
@@ -207,18 +208,29 @@
   }
 
   /* ============================================================
-     THEORY TAB
+     THEORY TAB — with bilingual toggle
      ============================================================ */
   function renderTheory(lesson, root) {
     const r = lesson.reading;
     const done = isSectionDone(lesson.id, 'theory');
+    const hasRu = !!r.textRu;
+    const lang = state.theoryLang || 'orig';
+
+    const showText = (hasRu && lang === 'ru') ? r.textRu : r.text;
+    const origLabel = course.level && course.level.indexOf('A1') >= 0 ? 'Оригинал' : 'Оригинал';
+    const toggleHTML = hasRu ? `
+      <div class="aes-pcv-lang-toggle">
+        <button class="aes-pcv-lang-btn ${lang === 'orig' ? 'is-active' : ''}" data-lang-toggle="orig">${origLabel}</button>
+        <button class="aes-pcv-lang-btn ${lang === 'ru' ? 'is-active' : ''}" data-lang-toggle="ru">Русский</button>
+      </div>` : '';
 
     root.innerHTML = `
       <div class="aes-pcv-theory">
+        ${toggleHTML}
         <h3>${esc(r.title)}</h3>
-        <div class="aes-pcv-reading">${esc(r.text).replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')}</div>
+        <div class="aes-pcv-reading">${esc(showText).replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')}</div>
         <div class="aes-pcv-vocab">
-          <h4>📋 Ключевой словарь</h4>
+          <h4>Ключевой словарь</h4>
           ${r.vocab.map((v) => `<div class="aes-pcv-vocab-item"><span class="aes-pcv-vocab-word">${esc(v.word)}</span><span class="aes-pcv-vocab-trans">${esc(v.trans)}</span></div>`).join('')}
         </div>
         ${!done ? '<button class="aes-btn aes-btn-primary aes-pcv-complete-btn" data-complete-section="theory">Отметить изученным ✓</button>' : '<p class="aes-pcv-done-badge">✓ Изучено</p>'}
@@ -228,6 +240,13 @@
       markSectionDone(lesson.id, 'theory');
       renderTabContent();
       updateTabs();
+    });
+
+    $$('[data-lang-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.theoryLang = btn.getAttribute('data-lang-toggle');
+        renderTabContent();
+      });
     });
   }
 

@@ -14,6 +14,7 @@
       tagline: 'Говорите с первого дня. 6 модулей с теорией, видео, тестами и домашними заданиями.',
       level: 'Начальный (A1-A2)',
       category: 'beginner',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 1000,
@@ -28,6 +29,7 @@
       tagline: 'Естественная беглость через диалоги и практику. 6 модулей.',
       level: 'Средний (A2-B1)',
       category: 'intermediate',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 1750,
@@ -42,6 +44,7 @@
       tagline: 'Деловая переписка, переговоры, презентации и собеседования. 6 модулей.',
       level: 'Продвинутый (B1-C1)',
       category: 'business',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 3000,
@@ -56,6 +59,7 @@
       tagline: 'Весёлый английский для любопытных детей 6-12 лет. 6 модулей.',
       level: 'Дети 6-12',
       category: 'kids',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 1250,
@@ -70,6 +74,7 @@
       tagline: 'Подготовка к баллу 7+ с разбором всех секций IELTS. 6 модулей.',
       level: 'Продвинутый (B2-C2)',
       category: 'advanced',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 4000,
@@ -84,6 +89,7 @@
       tagline: 'Освойте скелет английского с упражнениями. 6 модулей.',
       level: 'Начальный (A1-A2)',
       category: 'beginner',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 750,
@@ -98,6 +104,7 @@
       tagline: 'Улучшите произношение с фонетическим анализом. 6 модулей.',
       level: 'Средний (B1-B2)',
       category: 'intermediate',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 1500,
@@ -112,6 +119,7 @@
       tagline: 'Пишите лучшие истории на английском. 6 модулей.',
       level: 'Продвинутый (B2-C1)',
       category: 'advanced',
+      lang: 'en',
       duration: '5.5+ часов',
       lessons: 6,
       price: 2000,
@@ -119,6 +127,63 @@
       accent: 'cream',
       art: ['#F4E7D8', '#EAD0A8'],
       highlights: ['Пошаговая разблокировка уроков', 'Домашка после каждого урока', 'Теория + видео + тесты + практика']
+    },
+    /* ===== French ===== */
+    {
+      id: 'fr-free', title: 'Французский с нуля (Free)', tagline: 'Бесплатный курс французского для начинающих. 6 модулей.',
+      level: 'Начальный (A1)', category: 'beginner', lang: 'fr', duration: '5.5+ часов', lessons: 6,
+      price: 0, oldPrice: 0, accent: 'lavender', art: ['#E5DAF0','#CDBCE6'],
+      highlights: ['Приветствия, числа, грамматика', 'Домашка после каждого урока', 'Теория + видео + тесты']
+    },
+    {
+      id: 'fr-business', title: 'Бизнес-французский', tagline: 'Деловая переписка, встречи, презентации на французском. 6 модулей.',
+      level: 'Средний (B1-B2)', category: 'business', lang: 'fr', duration: '5.5+ часов', lessons: 6,
+      price: 1500, oldPrice: 2990, accent: 'dustyPink', art: ['#F2DCDC','#E9C4C4'],
+      highlights: ['Email, встречи, презентации', 'Телефонные звонки, переговоры', 'Домашка после каждого урока']
+    },
+    {
+      id: 'fr-grammar', title: 'Грамматика французского Pro', tagline: 'Освойте грамматику французского. 6 модулей.',
+      level: 'Средний (A2-B1)', category: 'intermediate', lang: 'fr', duration: '5.5+ часов', lessons: 6,
+      price: 1000, oldPrice: 1990, accent: 'mint', art: ['#D6EBDC','#BFE3CE'],
+      highlights: ['Местоимения, времена', 'Сослагательное наклонение', 'Домашка после каждого урока']
+    },
+    /* ===== German ===== */
+    {
+      id: 'de-free', title: 'Немецкий с нуля (Free)', tagline: 'Бесплатный курс немецкого для начинающих. 6 модулей.',
+      level: 'Начальный (A1)', category: 'beginner', lang: 'de', duration: '5.5+ часов', lessons: 6,
+      price: 0, oldPrice: 0, accent: 'mint', art: ['#D6EBDC','#BFE3CE'],
+      highlights: ['Приветствия, числа, артикли', 'Домашка после каждого урока', 'Теория + видео + тесты']
+    },
+    {
+      id: 'de-business', title: 'Бизнес-немецкий', tagline: 'Деловая переписка, встречи, презентации на немецком. 6 модулей.',
+      level: 'Средний (B1-B2)', category: 'business', lang: 'de', duration: '5.5+ часов', lessons: 6,
+      price: 1500, oldPrice: 2990, accent: 'dustyPink', art: ['#F2DCDC','#E9C4C4'],
+      highlights: ['Email, встречи, презентации', 'Собеседование, переговоры', 'Домашка после каждого урока']
+    },
+    {
+      id: 'de-grammar', title: 'Грамматика немецкого Pro', tagline: 'Освойте грамматику немецкого. 6 модулей.',
+      level: 'Средний (A2-B1)', category: 'intermediate', lang: 'de', duration: '5.5+ часов', lessons: 6,
+      price: 1000, oldPrice: 1990, accent: 'lavender', art: ['#E5DAF0','#CDBCE6'],
+      highlights: ['Падежи, артикли, модальные глаголы', 'Прошедшие времена', 'Домашка после каждого урока']
+    },
+    /* ===== Spanish ===== */
+    {
+      id: 'es-free', title: 'Испанский с нуля (Free)', tagline: 'Бесплатный курс испанского для начинающих. 6 модулей.',
+      level: 'Начальный (A1)', category: 'beginner', lang: 'es', duration: '5.5+ часов', lessons: 6,
+      price: 0, oldPrice: 0, accent: 'cream', art: ['#FBF1DD','#F3E2B8'],
+      highlights: ['Приветствия, числа, грамматика', 'Домашка после каждого урока', 'Теория + видео + тесты']
+    },
+    {
+      id: 'es-business', title: 'Бизнес-испанский', tagline: 'Деловая переписка, встречи, презентации на испанском. 6 модулей.',
+      level: 'Средний (B1-B2)', category: 'business', lang: 'es', duration: '5.5+ часов', lessons: 6,
+      price: 1500, oldPrice: 2990, accent: 'dustyPink', art: ['#F2DCDC','#E9C4C4'],
+      highlights: ['Email, встречи, презентации', 'Собеседование, переговоры', 'Домашка после каждого урока']
+    },
+    {
+      id: 'es-grammar', title: 'Грамматика испанского Pro', tagline: 'Освойте грамматику испанского. 6 модулей.',
+      level: 'Средний (A2-B1)', category: 'intermediate', lang: 'es', duration: '5.5+ часов', lessons: 6,
+      price: 1000, oldPrice: 1990, accent: 'lavender', art: ['#E5DAF0','#CDBCE6'],
+      highlights: ['Ser vs Estar, прошедшие времена', 'Сослагательное наклонение', 'Домашка после каждого урока']
     }
   ];
 

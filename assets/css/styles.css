@@ -1169,6 +1169,17 @@ body.aes-dark .aes-app-gate p { color: rgba(216,212,232,.6) !important; }
 .aes-pcv-theory h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 1rem; }
 .aes-pcv-reading p { line-height: 1.8; color: rgba(58,53,80,.75); margin-bottom: 1rem; }
 
+.aes-pcv-lang-toggle {
+  display: inline-flex; gap: 0; border-radius: 999px; overflow: hidden;
+  border: 1px solid rgba(58,53,80,.15); margin-bottom: 1.5rem;
+}
+.aes-pcv-lang-btn {
+  padding: .4rem 1.2rem; font-size: .8rem; font-weight: 600;
+  background: transparent; color: rgba(58,53,80,.5); border: none; cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.aes-pcv-lang-btn.is-active { background: var(--ink); color: var(--warm-white); }
+
 .aes-pcv-vocab { margin-top: 1.5rem; }
 .aes-pcv-vocab h4 { font-size: .95rem; font-weight: 600; color: var(--ink); margin-bottom: .6rem; }
 .aes-pcv-vocab-item {

@@ -135,14 +135,20 @@
     </article>`;
   }
 
+  function getLangFilter() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('lang') || 'en';
+  }
+
   function renderCourses() {
     const root = $('#courses-grid');
     if (!root || !D.COURSES) return;
-    const list = activeFilter === 'all' ? D.COURSES : D.COURSES.filter((c) => c.category === activeFilter);
+    const lang = getLangFilter();
+    let list = D.COURSES.filter((c) => (c.lang || 'en') === lang);
+    if (activeFilter !== 'all') list = list.filter((c) => c.category === activeFilter);
     root.innerHTML = list.length
       ? list.map(courseCard).join('')
       : `<p class="col-span-full text-center text-ink/55 py-16 font-display text-xl">В этой категории пока нет курсов.</p>`;
-    // re-observe newly created reveal nodes
     observeReveals(root);
   }
 

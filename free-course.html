@@ -43,8 +43,8 @@
     </div>
   </header>
 
-  <!-- ============ AUTH GATE ============ -->
-  <div id="auth-gate" class="aes-app-gate" style="display:none">
+  <!-- ============ AUTH GATE (auth only — no payment required) ============ -->
+  <div id="access-gate" class="aes-app-gate" style="display:none">
     <div class="aes-app-gate-content">
       <div class="aes-auth-gate-icon">
         <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -59,24 +59,37 @@
 
   <!-- ============ APP CONTENT ============ -->
   <div id="course-content" style="display:none">
-    <!-- Progress bar -->
-    <div id="course-progress-wrap" class="aes-app-progress-wrap">
-      <div class="aes-cw-progress-wrap">
-        <div class="flex items-center justify-between mb-1">
-          <span class="text-xs font-semibold" style="color:var(--ink-soft)">Ваш прогресс</span>
-          <span class="text-xs" style="color:var(--ink-soft)" id="course-progress-text">0 / 12</span>
-        </div>
-        <div class="aes-cw-progress-track">
-          <div class="aes-cw-progress-fill" id="course-progress-bar" style="width:0%"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Two-column layout -->
-    <div class="aes-cw-layout aes-app-layout">
-      <aside class="aes-cw-sidebar" id="course-sidebar"></aside>
-      <div class="aes-cw-main" id="course-main"></div>
-    </div>
+    <!-- ---------- COURSE OVERVIEW ---------- -->
+    <section id="pcv-overview">
+      <div class="max-w-5xl mx-auto">
+        <span class="aes-eyebrow">Бесплатный курс</span>
+        <h1 class="font-display text-ink mt-4 text-5xl md:text-6xl" id="pcv-course-title">Курс</h1>
+
+        <div class="flex flex-wrap gap-6 mt-6 text-sm text-ink/60">
+          <span>Уровень: <strong class="text-ink" id="pcv-course-level">—</strong></span>
+          <span>Длительность: <strong class="text-ink" id="pcv-course-duration">—</strong></span>
+          <span>Уроков: <strong class="text-ink" id="pcv-course-lessons-count">—</strong></span>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="mt-8 aes-cw-progress-wrap">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-semibold" style="color:var(--ink-soft)">Ваш прогресс</span>
+            <span class="text-xs" style="color:var(--ink-soft)" id="pcv-progress-text">0 / 0</span>
+          </div>
+          <div class="aes-cw-progress-track">
+            <div class="aes-cw-progress-fill" id="pcv-progress-bar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Lessons grid (populated by paid-course-viewer.js) -->
+        <div id="pcv-lessons" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8"></div>
+      </div>
+    </section>
+
+    <!-- ---------- LESSON VIEW (initially hidden) ---------- -->
+    <section id="pcv-lesson-view" class="max-w-5xl mx-auto" style="display:none"></section>
 
     <!-- AI Assistant -->
     <div class="aes-app-assistant">
@@ -115,23 +128,40 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/free-course-data.js"></script>
+  <script src="assets/js/french-course-data-1.js"></script>
+  <script src="assets/js/french-course-data-2.js"></script>
+  <script src="assets/js/french-course-data-3.js"></script>
+  <script src="assets/js/german-course-data-1.js"></script>
+  <script src="assets/js/german-course-data-2.js"></script>
+  <script src="assets/js/german-course-data-3.js"></script>
+  <script src="assets/js/spanish-course-data-1.js"></script>
+  <script src="assets/js/spanish-course-data-2.js"></script>
+  <script src="assets/js/spanish-course-data-3.js"></script>
+  <script src="assets/js/lang-courses.js"></script>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/payment.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/assistant.js"></script>
-  <script src="assets/js/course-viewer.js"></script>
+  <script>
+    // Ensure ?course=c-free is in the URL so paid-course-viewer.js finds the free course
+    if (!new URLSearchParams(window.location.search).get('course')) {
+      history.replaceState(null, '', window.location.pathname + '?course=c-free');
+    }
+  </script>
+  <script src="assets/js/paid-course-viewer.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
     function updateGate() {
-      var gate = document.getElementById('auth-gate');
+      var gate = document.getElementById('access-gate');
       var content = document.getElementById('course-content');
       var user = (window.AESAuth && window.AESAuth.getUser());
       if (user) {
         if (gate) gate.style.display = 'none';
         if (content) content.style.display = 'block';
-        setTimeout(function() {
-          document.dispatchEvent(new Event('aes:course-show'));
-        }, 50);
+        if (window.AESPaidViewer && window.AESPaidViewer.init) {
+          setTimeout(function() { window.AESPaidViewer.init(); }, 100);
+        }
       } else {
         if (gate) gate.style.display = 'flex';
         if (content) content.style.display = 'none';

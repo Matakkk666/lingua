@@ -246,6 +246,16 @@
   <script src="assets/js/paid-course-data-6.js"></script>
   <script src="assets/js/paid-course-data-7.js"></script>
   <script src="assets/js/paid-course-data-8.js"></script>
+  <script src="assets/js/french-course-data-1.js"></script>
+  <script src="assets/js/french-course-data-2.js"></script>
+  <script src="assets/js/french-course-data-3.js"></script>
+  <script src="assets/js/german-course-data-1.js"></script>
+  <script src="assets/js/german-course-data-2.js"></script>
+  <script src="assets/js/german-course-data-3.js"></script>
+  <script src="assets/js/spanish-course-data-1.js"></script>
+  <script src="assets/js/spanish-course-data-2.js"></script>
+  <script src="assets/js/spanish-course-data-3.js"></script>
+  <script src="assets/js/lang-courses.js"></script>
   <script src="assets/js/paid-courses.js"></script>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/avatar.js"></script>
@@ -257,9 +267,10 @@
     'use strict';
 
     var CATEGORIES = [
-      { id: 'base', label: 'Аватары' },
-      { id: 'hat', label: 'Шляпы' },
-      { id: 'glasses', label: 'Очки' },
+      { id: 'skin', label: 'Кожа' },
+      { id: 'hair', label: 'Причёски' },
+      { id: 'shirt', label: 'Одежда' },
+      { id: 'pants', label: 'Штаны' },
       { id: 'accessory', label: 'Аксессуары' },
       { id: 'background', label: 'Фоны' }
     ];
@@ -321,8 +332,10 @@
       var coins = window.AESAvatar.loadCoins();
       var afford = coins >= (item.price || 0);
 
-      var preview = item.emoji || '';
-      if (cat === 'background' && item.css) preview = '';
+      var preview = '';
+      if (item.color) {
+        preview = '<div style="width:40px;height:40px;border-radius:50%;background:' + esc(item.color) + ';margin:0 auto;border:2px solid rgba(0,0,0,.1);"></div>';
+      }
 
       var btn;
       if (equipped) {
