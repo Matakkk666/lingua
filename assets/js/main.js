@@ -101,7 +101,11 @@
     if (canOpen) {
       buttonHTML = '<a class="aes-buy aes-buy-open" href="paid-course.html?course=' + c.id + '">Открыть курс →</a>';
     } else if (c.price === 0) {
-      buttonHTML = '<a class="aes-buy" href="free-course.html" target="_blank">Начать бесплатно</a>';
+      if (c.id === 'c-free') {
+        buttonHTML = '<a class="aes-buy" href="free-course.html" target="_blank">Начать бесплатно</a>';
+      } else {
+        buttonHTML = '<a class="aes-buy aes-buy-open" href="paid-course.html?course=' + c.id + '">Начать бесплатно →</a>';
+      }
     } else {
       buttonHTML = '<button class="aes-buy" data-buy="' + c.id + '">Купить курс</button>';
     }
@@ -138,6 +142,18 @@
   function getLangFilter() {
     const params = new URLSearchParams(window.location.search);
     return params.get('lang') || 'en';
+  }
+
+  function highlightLangTab() {
+    const lang = getLangFilter();
+    const labels = { en: 'Английский', fr: 'Французский', de: 'Немецкий', es: 'Испанский' };
+    $$('#lang-bar [data-lang]').forEach((a) => {
+      a.classList.toggle('is-active', a.getAttribute('data-lang') === lang);
+    });
+    const title = $('#courses-page-title');
+    if (title && labels[lang]) title.textContent = labels[lang];
+    const banner = $('#free-banner-section');
+    if (banner) banner.style.display = (lang === 'en') ? '' : 'none';
   }
 
   function renderCourses() {
@@ -232,6 +248,7 @@
     renderFeatures();
     renderCurriculum();
     renderTestimonials();
+    highlightLangTab();
     renderCourses();
     wireFilters();
     wireMenu();
