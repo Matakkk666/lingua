@@ -15,28 +15,24 @@
   const urlParams = new URLSearchParams(global.location.search);
   const courseId = urlParams.get('course');
 
-  const COURSES = ((global.AESData || {}).PAID_COURSES) || [];
-  const course = COURSES.find((c) => c.id === courseId);
-
-  if (!course) {
-    $('#course-content').innerHTML = '<div class="aes-pcv-error"><h2>Курс не найден</h2><a href="courses.html" class="aes-btn aes-btn-primary">← К курсам</a></div>';
-    $('#course-content').style.display = 'block';
-    $('#access-gate').style.display = 'none';
-    return;
-  }
-
-  const PROGRESS_KEY = 'aes_paid_progress_' + course.id;
   const COIN_KEY = 'aes_coins';
   const COINS_PER_LESSON = 50;
 
+  let course = null;
+  let PROGRESS_KEY = '';
   const state = {
     activeLessonIdx: 0,
     activeTab: 'theory',
     theoryLang: 'orig',
-    completedSections: loadProgress(),
+    completedSections: {},
     quizState: null,
     homeworkState: null
   };
+
+  function findCourse() {
+    const COURSES = ((global.AESData || {}).PAID_COURSES) || [];
+    return COURSES.find((c) => c.id === courseId);
+  }
 
   function loadProgress() {
     try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}'); }
@@ -637,6 +633,16 @@
      INIT
      ============================================================ */
   function init() {
+    course = findCourse();
+    if (!course) {
+      $('#course-content').innerHTML = '<div class="aes-pcv-error"><h2>Курс не найден</h2><a href="courses.html" class="aes-btn aes-btn-primary">← К курсам</a></div>';
+      $('#course-content').style.display = 'block';
+      $('#access-gate').style.display = 'none';
+      return;
+    }
+    PROGRESS_KEY = 'aes_paid_progress_' + course.id;
+    state.completedSections = loadProgress();
+
     $('#pcv-course-title').textContent = course.title;
     $('#pcv-course-level').textContent = course.level;
     $('#pcv-course-duration').textContent = course.duration;
@@ -653,12 +659,6 @@
 
     renderLessonGrid();
     renderCoins();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
   }
 
   global.AESPaidViewer = { init };
