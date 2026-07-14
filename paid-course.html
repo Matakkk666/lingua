@@ -208,6 +208,9 @@
       if (!user || !user.email) return false;
       var id = new URLSearchParams(window.location.search).get('course');
       if (!id) return false;
+      var courses = (window.AESData && window.AESData.PAID_COURSES) || [];
+      var course = courses.find(function(c) { return c.id === id; });
+      if (course && course.price === 0) return true;
       return window.AESPayment && window.AESPayment.hasAccess(user.email, id);
     }
 
