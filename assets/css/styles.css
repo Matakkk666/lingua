@@ -1365,3 +1365,48 @@ body.aes-dark .aes-pcv-quiz-progress { background: rgba(255,255,255,.08); }
 .aes-shop-btn { margin-top: .8rem; }
 body.aes-dark .aes-shop-item { background: #23203a; border-color: rgba(255,255,255,.06); }
 body.aes-dark .aes-shop-price { color: #d8d4e8; }
+
+
+body.aes-locked{ overflow:hidden; }
+
+/* ============================================================
+   Progress dashboard (added)
+   ============================================================ */
+.aes-dash-card{
+  background:#FFFCF6;
+  border:1px solid rgba(58,53,80,.08);
+  border-radius:1.5rem;
+  padding:1.25rem 1.4rem;
+}
+.aes-pbar{ height:9px; border-radius:999px; background:rgba(58,53,80,.1); overflow:hidden; }
+.aes-pbar-fill{ height:100%; border-radius:999px; background:linear-gradient(90deg,#9D7BC4,#7BB38E); transition:width .6s ease; }
+.aes-ring{ transform:rotate(-90deg); flex:0 0 auto; }
+.aes-ring-bg{ stroke:rgba(58,53,80,.12); }
+.aes-ring-fg{ stroke:#9D7BC4; stroke-linecap:round; transition:stroke-dashoffset .6s ease; }
+
+/* ============================================================
+   Certificate modal (added)
+   ============================================================ */
+.aes-cert-overlay{
+  position:fixed; inset:0; z-index:80;
+  display:flex; align-items:center; justify-content:center;
+  padding:1.25rem;
+  background:rgba(58,53,80,.45);
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  opacity:0; transition:opacity .25s ease;
+}
+.aes-cert-overlay.is-open{ opacity:1; }
+.aes-cert-modal{
+  background:#FBF7F1; border-radius:1.5rem; padding:1.25rem;
+  max-width:920px; width:100%; max-height:92vh; overflow:auto;
+  position:relative; box-shadow:0 30px 80px rgba(58,53,80,.3);
+}
+.aes-cert-canvas-wrap{ width:100%; }
+.aes-cert-canvas{ width:100%; height:auto; border-radius:.75rem; display:block; }
+.aes-cert-actions{ display:flex; gap:.75rem; justify-content:center; margin-top:1rem; flex-wrap:wrap; }
+.aes-cert-close{
+  position:absolute; top:.5rem; right:.85rem;
+  font-size:1.9rem; line-height:1;
+  background:none; border:none; color:#3A3550; cursor:pointer; z-index:2;
+}
