@@ -1410,3 +1410,42 @@ body.aes-locked{ overflow:hidden; }
   font-size:1.9rem; line-height:1;
   background:none; border:none; color:#3A3550; cursor:pointer; z-index:2;
 }
+
+/* ============================================================
+   MOBILE POLISH (added) — масштабирование и устранение наложений на телефоне
+   ============================================================ */
+@media (max-width: 640px) {
+  /* никакого горизонтального выезда и наложения длинных слов */
+  html, body { overflow-x: hidden; max-width: 100%; }
+  h1, h2, h3, h4, p, li, a, span { overflow-wrap: break-word; }
+
+  /* HERO: заголовок чуть просторнее по высоте строки */
+  .aes-hero-title { line-height: 1.04; letter-spacing: -0.01em; }
+
+  /* Плавающие карточки в hero уменьшаем и прижимаем внутрь,
+     чтобы они не наезжали друг на друга и на значок AI */
+  .aes-float-card { width: 9.5rem !important; padding: .7rem !important; }
+  .aes-float-card p { font-size: .72rem; line-height: 1.25; }
+  .aes-float-card:not(.delay) { left: 0 !important; top: 3% !important; }
+  .aes-float-card.delay { right: 0 !important; bottom: 5% !important; }
+  .aes-badge-ring { width: 92px; height: 92px; }
+  .aes-badge-ring .aes-badge-core { width: 46px; height: 46px; }
+  .aes-badge-ring .aes-badge-core.font-display { font-size: 1rem; }
+
+  /* Крупный декор и цены компактнее */
+  .aes-course-price { font-size: 2.1rem; }
+  .aes-quote { padding: 1.5rem; }
+  .aes-quote-mark { font-size: 3.4rem; }
+  .aes-zig-stage { font-size: clamp(3rem, 16vw, 5rem); }
+
+  /* Карточки курсов: цена и кнопка не жмутся в одну строку */
+  .aes-course-foot { flex-wrap: wrap; gap: .8rem; }
+  .aes-course-meta { flex-wrap: wrap; gap: .6rem 1rem; }
+
+  /* Уроки платного курса: заголовок меньше */
+  .aes-pcv-lesson-header h2 { font-size: 1.45rem; line-height: 1.2; }
+
+  /* Дашборд прогресса: плотнее отступы и перенос шапки курса */
+  .aes-dash-card { padding: 1rem; }
+  .aes-dash-card .flex.items-center.justify-between { gap: .6rem; }
+}
