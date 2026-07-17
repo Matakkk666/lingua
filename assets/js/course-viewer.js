@@ -140,11 +140,6 @@
     root.innerHTML = `
       <div class="aes-cw-sidebar-head">
         <div class="aes-cw-sidebar-top">
-          <div class="aes-cw-coin-wrap">
-            <span class="aes-cw-coin-icon">🪙</span>
-            <span class="aes-cw-coin-balance">${state.coins}</span>
-            <span class="aes-coin-pop"></span>
-          </div>
           <button id="theme-toggle" class="aes-cw-theme-btn" title="Toggle theme">🌙</button>
         </div>
         <div class="aes-cw-progress-wrap">
@@ -374,7 +369,7 @@
     const q = state.quiz.questions[state.quiz.currentIdx];
     const isCorrect = idx === q.answer;
     state.quiz.answers.push({ selected: idx, correct: isCorrect });
-    if (isCorrect) { state.quiz.correctCount++; state.quiz.coinsEarned += COINS_PER_CORRECT; addCoins(COINS_PER_CORRECT); }
+    if (isCorrect) { state.quiz.correctCount++; }
     state.quiz.phase = 'feedback';
 
     // Update option buttons to show correct/incorrect
@@ -392,7 +387,7 @@
         <div class="aes-quiz-feedback ${isCorrect?'is-correct':'is-wrong'}">
           <div class="aes-quiz-feedback-icon">${isCorrect ? '✓' : '✗'}</div>
           <div>
-            <p class="aes-quiz-feedback-title">${isCorrect ? 'Верно! +' + COINS_PER_CORRECT + ' монет' : 'Не совсем!'}</p>
+            <p class="aes-quiz-feedback-title">${isCorrect ? 'Верно!' : 'Не совсем!'}</p>
             <p class="aes-quiz-feedback-explain">${esc(q.explain)}</p>
           </div>
         </div>
@@ -442,7 +437,7 @@
       <div class="aes-quiz-result ${passed?'is-pass':'is-fail'}">
         <div class="aes-quiz-result-icon">${passed?'🎉':'📚'}</div>
         <h4 class="font-display text-2xl text-ink mt-3">${passed?'Отлично!':'Продолжайте практиковаться!'}</h4>
-        <p class="text-ink/65 mt-2">Правильно: <strong class="text-ink">${correct} / ${total}</strong>. Заработано <strong class="text-ink">🪙 ${coins}</strong> монет.</p>
+        <p class="text-ink/65 mt-2">Правильно: <strong class="text-ink">${correct} / ${total}</strong>.</p>
 
         ${!passed ? `
           <p class="aes-quiz-retry-msg">Вы ответили неправильно более чем на половину. Попробовать снова с новыми вопросами или перейти к следующему уроку?</p>
