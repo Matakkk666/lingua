@@ -8,9 +8,10 @@
    реальных платежей рекомендуется вынести генерацию подписи на
    бэкенд (см. SETUP-PAYMENT.md, раздел «Переход в продакшен»).
    ============================================================ */
-const ROBOKASSA_MERCHANT = 'lingua';       // Merchant Login
-const ROBOKASSA_PASS1 = 'Kokorev201103';   // Password #1
-const ROBOKASSA_TEST = false;              // true — тестовый режим Robokassa
+const ROBOKASSA_MERCHANT = 'lingua';          // Merchant Login
+const ROBOKASSA_PASS1 = 'Kokorev201103';      // Password #1 (боевой)
+const ROBOKASSA_TEST_PASS1 = 'Kokorev201103'; // Password #1 для ТЕСТОВЫХ платежей — замените на тестовый пароль из ЛК Robokassa (Технические настройки)
+const ROBOKASSA_TEST = true;                  // true — тестовый режим Robokassa (деньги не списываются)
 
 (function (global) {
   'use strict';
@@ -169,7 +170,8 @@ const ROBOKASSA_TEST = false;              // true — тестовый режи
   function createPaymentUrl(amount, invId, description) {
     const outSum = formatSum(amount);
     const inv = (invId != null ? invId : makeInvId()).toString();
-    const signature = md5(ROBOKASSA_MERCHANT + ':' + outSum + ':' + inv + ':' + ROBOKASSA_PASS1).toUpperCase();
+    const pass1 = ROBOKASSA_TEST ? ROBOKASSA_TEST_PASS1 : ROBOKASSA_PASS1;
+    const signature = md5(ROBOKASSA_MERCHANT + ':' + outSum + ':' + inv + ':' + pass1).toUpperCase();
     const params = new URLSearchParams({
       MerchantLogin: ROBOKASSA_MERCHANT,
       OutSum: outSum,
