@@ -10,7 +10,7 @@
    ============================================================ */
 const ROBOKASSA_MERCHANT = 'lingua';          // Merchant Login
 const ROBOKASSA_PASS1 = 'Kokorev201103';      // Password #1 (боевой)
-const ROBOKASSA_TEST_PASS1 = 'Kokorev201103'; // Password #1 для ТЕСТОВЫХ платежей — замените на тестовый пароль из ЛК Robokassa (Технические настройки)
+const ROBOKASSA_TEST_PASS1 = 'JrQtPMmsql19iP4cp31A'; // Password #1 для ТЕСТОВЫХ платежей (из ЛК Robokassa → Технические настройки)
 const ROBOKASSA_TEST = true;                  // true — тестовый режим Robokassa (деньги не списываются)
 
 (function (global) {
