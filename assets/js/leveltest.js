@@ -144,12 +144,13 @@
         <h3 class="font-display text-2xl md:text-3xl text-ink mt-4">${escapeHTML(q.q)}</h3>
         <div class="aes-test-options">
           ${q.options.map((opt, i) => `
-            <button class="aes-test-option" data-answer="${i}">
+            <button class="aes-test-option${state.answers[state.current] === i ? ' is-selected' : ''}" data-answer="${i}" aria-pressed="${state.answers[state.current] === i}">
               <span class="aes-test-option-letter">${letter(i)}</span>
               <span class="aes-test-option-text">${escapeHTML(opt)}</span>
             </button>
           `).join('')}
         </div>
+        ${state.current > 0 ? '<button class="aes-btn aes-btn-ghost mt-6" data-test-back>← Предыдущий вопрос</button>' : ''}
       </div>`;
   }
 
@@ -178,7 +179,7 @@
             </svg>
             <span class="aes-test-score-num">${percent}%</span>
           </div>
-          <p class="text-sm text-ink/55 mt-3">${r.totalCorrect} of ${r.total} correct</p>
+          <p class="text-sm text-ink/55 mt-3">Верных ответов: ${r.totalCorrect} из ${r.total}</p>
         </div>
         <div class="aes-test-breakdown">
           ${r.breakdown.map((b) => {
@@ -193,7 +194,7 @@
         </div>
         <div class="aes-test-actions">
           <button class="aes-btn aes-btn-ghost" data-test-retry>Пройти заново</button>
-          <a href="courses.html" class="aes-btn aes-btn-primary">Найти курс</a>
+          <a href="courses.html?lang=en&filter=${r.level === 'A1' ? 'beginner' : ['A2', 'B1'].includes(r.level) ? 'intermediate' : 'advanced'}" class="aes-btn aes-btn-primary">Курсы для уровня ${r.level}</a>
         </div>
       </div>`;
   }
@@ -240,6 +241,7 @@
     document.addEventListener('click', (e) => {
       if (e.target.closest('[data-test-start]')) { e.preventDefault(); start(); return; }
       if (e.target.closest('[data-test-retry]')) { e.preventDefault(); retry(); return; }
+      if (e.target.closest('[data-test-back]')) { e.preventDefault(); if (state.current > 0) { state.current--; renderQuestion(); } return; }
       const opt = e.target.closest('[data-answer]');
       if (opt) { e.preventDefault(); answer(parseInt(opt.getAttribute('data-answer'), 10)); }
     });

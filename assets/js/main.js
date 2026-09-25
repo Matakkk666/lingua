@@ -171,11 +171,21 @@
   function wireFilters() {
     const bar = $('#filter-bar');
     if (!bar) return;
+    const requested = new URLSearchParams(window.location.search).get('filter');
+    if (requested && $$('[data-filter]', bar).some((b) => b.dataset.filter === requested)) {
+      activeFilter = requested;
+      $$('[data-filter]', bar).forEach((b) => b.classList.toggle('is-active', b.dataset.filter === requested));
+      renderCourses();
+    }
     bar.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-filter]');
       if (!btn) return;
       activeFilter = btn.getAttribute('data-filter');
       $$('[data-filter]', bar).forEach((b) => b.classList.toggle('is-active', b === btn));
+      const url = new URL(window.location.href);
+      if (activeFilter === 'all') url.searchParams.delete('filter');
+      else url.searchParams.set('filter', activeFilter);
+      window.history.replaceState(null, '', url);
       renderCourses();
     });
   }
